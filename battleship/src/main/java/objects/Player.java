@@ -7,9 +7,19 @@ import interfaces.Resettable;
  */
 public abstract class Player implements Resettable {
   /**
+   * starting number of ships
+   */
+  private static final int NUM_STARTING_SHIPS = 5;
+
+  /**
+   * ship lengths
+   */
+  private static final int[] SHIP_LENGTHS = { 2, 3, 3, 4, 5 };
+
+  /**
    * number of ships each player starts with
    */
-  private int numShips = 5;
+  private int numRemainingShips = 5;
 
   /**
    * number of hits the player has made
@@ -27,9 +37,19 @@ public abstract class Player implements Resettable {
   private Grid playerGrid;
 
   /**
+   * array of player ships
+   */
+  private Ship[] ships;
+
+  /**
    * default constructor
    */
   public Player() {
+    this.playerGrid = new Grid();
+    this.ships = new Ship[NUM_STARTING_SHIPS];
+    for (int i = 0; i < NUM_STARTING_SHIPS; i++) {
+      this.ships[i] = new Ship(Player.SHIP_LENGTHS[i]);
+    }
   }
 
   /**
@@ -44,8 +64,8 @@ public abstract class Player implements Resettable {
    * 
    * @return numShips
    */
-  public int GetNumShips() {
-    return this.numShips;
+  public int GetNumRemainingShips() {
+    return this.numRemainingShips;
   }
 
   /**
@@ -84,7 +104,7 @@ public abstract class Player implements Resettable {
    * decrements numShips
    */
   public void sinkShip() {
-    this.numShips--;
+    this.numRemainingShips--;
   }
 
   /**
@@ -93,9 +113,13 @@ public abstract class Player implements Resettable {
   public void Reset() {
     this.numHits = 0;
     this.numMisses = 0;
-    this.numShips = 5;
+    this.numRemainingShips = NUM_STARTING_SHIPS;
 
-    // TODO clear grid
+    this.playerGrid = new Grid();
+    this.ships = new Ship[NUM_STARTING_SHIPS];
+    for (int i = 0; i < NUM_STARTING_SHIPS; i++) {
+      this.ships[i] = new Ship(Player.SHIP_LENGTHS[i]);
+    }
   }
 
 }

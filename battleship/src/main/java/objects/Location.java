@@ -6,6 +6,10 @@ import interfaces.Resettable;
  * Location class that will hold data about a location on the game grid
  */
 public class Location implements Resettable {
+  enum Status {
+    UNGUESSED, MISS, HIT
+  }
+
   /**
    * whether or not the Location has a Ship in it
    */
@@ -14,7 +18,7 @@ public class Location implements Resettable {
   /**
    * whether or not the Player has attacked this Location
    */
-  private boolean targeted = false;
+  private Status status = Status.UNGUESSED;
 
   /**
    * Default Constructor
@@ -36,8 +40,8 @@ public class Location implements Resettable {
    * 
    * @return targeted
    */
-  public boolean hasBeenTargeted() {
-    return this.targeted;
+  public Status getStatus() {
+    return this.status;
   }
 
   /**
@@ -48,10 +52,17 @@ public class Location implements Resettable {
   }
 
   /**
-   * Marks the Location has having been guessed
+   * Marks the Location as a miss
    */
-  public void markGuessed() {
-    this.targeted = true;
+  public void markMiss() {
+    this.status = Status.MISS;
+  }
+
+  /**
+   * Marks the Location has a hit
+   */
+  public void markHit() {
+    this.status = Status.HIT;
   }
 
   /**
@@ -59,7 +70,7 @@ public class Location implements Resettable {
    */
   public void Reset() {
     this.occupied = false;
-    this.targeted = false;
+    this.status = Status.UNGUESSED;
   }
 
 }

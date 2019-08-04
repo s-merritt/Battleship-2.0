@@ -4,6 +4,7 @@ import exceptions.LocationAlreadyGuessedException;
 import exceptions.LocationAlreadyOccupiedException;
 import exceptions.LocationOutOfBoundsException;
 import interfaces.Resettable;
+import objects.Location.Status;
 
 /**
  * Grid class that will contain a 2D array of Locations
@@ -21,12 +22,16 @@ public class Grid implements Resettable {
   /**
    * The Game grid itself
    */
-  private Location[][] grid = new Location[MAX_ROWS][MAX_COLS];
+  private Location[][] grid;
 
   /**
    * Default Constructor
    */
   public Grid() {
+    this.grid = new Location[MAX_ROWS][MAX_COLS];
+    for (int row = 0; row < MAX_ROWS; row++)
+      for (int col = 0; col < MAX_COLS; col++)
+        grid[row][col] = new Location();
   }
 
   /**
@@ -37,42 +42,42 @@ public class Grid implements Resettable {
    * 
    * @param headRow
    * @param headCol
-   * @param length       length of the ship
+   * @param Ship
    * @param isHorizontal
    * @throws LocationOutOfBoundsException
    */
-  public void setShip(int headRow, int headCol, int length, boolean isHorizontal)
+  public void setShip(int headRow, int headCol, Ship ship, boolean isHorizontal)
       throws LocationOutOfBoundsException, LocationAlreadyOccupiedException {
     if (isHorizontal) { // only column number changes
       // check that ship will be within bounds
-      if (headCol + length > MAX_COLS) {
+      if (headCol + ship.getLength() > MAX_COLS) {
         throw new LocationOutOfBoundsException("Invalid Ship Location: out of bounds!");
       }
       // check that ship will not overlap existing ship
-      for (int i = 0; i < length; i++) {
+      for (int i = 0; i < ship.getLength(); i++) {
         if (grid[headRow][headCol + i].hasShip()) {
           throw new LocationAlreadyOccupiedException("Invalid Ship Location: ship will overlap with existing ship!");
         }
       }
 
       // place ship
-      for (int i = 0; i < length; i++) {
+      for (int i = 0; i < ship.getLength(); i++) {
         setShip(headRow, headCol + i);
       }
     } else { // vertical, only row number changes
       // check that ship will be within bounds
-      if (headRow + length > MAX_ROWS) {
+      if (headRow + ship.getLength() > MAX_ROWS) {
         throw new LocationOutOfBoundsException("Invalid Ship Location: out of bounds!");
       }
       // check that ship will not overlap existing ship
-      for (int i = 0; i < length; i++) {
+      for (int i = 0; i < ship.getLength(); i++) {
         if (grid[headRow + i][headCol].hasShip()) {
           throw new LocationAlreadyOccupiedException("Invalid Ship Location: ship will overlap with existing ship!");
         }
       }
 
       // place ship
-      for (int i = 0; i < length; i++) {
+      for (int i = 0; i < ship.getLength(); i++) {
         setShip(headRow + i, headCol);
       }
     }
@@ -105,19 +110,24 @@ public class Grid implements Resettable {
    * 
    * @param row
    * @param col
-   * @return whether or not the Location has a Ship in it
+   * @return Location.Status HIT or MISS
    * @throws LocationAlreadyGuessedException
    */
-  public boolean checkLocationForShip(int row, int col) throws LocationAlreadyGuessedException {
+  public Location.Status checkLocationForShip(int row, int col) throws LocationAlreadyGuessedException {
+    Location l = this.grid[row][col];
     // check if Location has already been guessed
-    if (this.grid[row][col].hasBeenTargeted()) {
+    if (l.getStatus() != Status.UNGUESSED) {
       throw new LocationAlreadyGuessedException("Location has already been guessed!");
-    } else {
-      // mark that Location as guessed
-      this.grid[row][col].markGuessed();
     }
 
-    return this.grid[row][col].hasShip();
+    if (l.hasShip()) {
+      this.grid[row][col].markHit();
+      return Location.Status.HIT;
+    } else {
+      this.grid[row][col].markMiss();
+      return Location.Status.MISS;
+    }
+
   }
 
   /**
@@ -128,6 +138,58 @@ public class Grid implements Resettable {
    */
   public boolean withinBounds(int row, int col) {
     return row < MAX_ROWS && row >= 0 && col < MAX_COLS && col >= 0;
+  }
+
+  public void showGuesses() {
+    System.out.print("   ");
+    for (int i = 0; i < MAX_COLS; i++) {
+      System.out.print((char) (i + 65) + " ");
+    }
+    System.out.println();
+
+    for (int row = 0; row < MAX_ROWS; row++) {
+      if (row < 9) {
+        System.out.print(row + 1 + "  ");
+      } else {
+        System.out.print(row + 1 + " ");
+      }
+      for (int col = 0; col < MAX_COLS; col++) {
+        if (grid[row][col].getStatus() == Status.MISS) {
+          System.out.print("O ");
+        } else if (grid[row][col].getStatus() == Status.HIT) {
+          System.out.print("X ");
+        } else {
+          System.out.print("- ");
+        }
+      }
+      System.out.println();
+    }
+
+  }
+
+  public void showShips() {
+    System.out.print("   ");
+    for (int i = 0; i < MAX_COLS; i++) {
+      System.out.print((char) (i + 65) + " ");
+    }
+    System.out.println();
+
+    for (int row = 0; row < MAX_ROWS; row++) {
+      if (row < 9) {
+        System.out.print(row + 1 + "  ");
+      } else {
+        System.out.print(row + 1 + " ");
+      }
+      for (int col = 0; col < MAX_COLS; col++) {
+        if (grid[row][col].hasShip()) {
+          System.out.print("X ");
+        } else {
+          System.out.print("- ");
+        }
+      }
+      System.out.println();
+    }
+
   }
 
   /**
