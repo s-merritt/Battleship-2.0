@@ -1,6 +1,6 @@
-package main.java.objects;
+package objects;
 
-import main.java.interfaces.Resettable;
+import interfaces.Resettable;
 
 /**
  * Location class that will hold data about a location on the game grid

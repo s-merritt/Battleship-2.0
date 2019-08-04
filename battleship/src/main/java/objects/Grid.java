@@ -1,7 +1,9 @@
-package main.java.objects;
+package objects;
 
-import main.java.exceptions.*;
-import main.java.interfaces.Resettable;
+import exceptions.LocationAlreadyGuessedException;
+import exceptions.LocationAlreadyOccupiedException;
+import exceptions.LocationOutOfBoundsException;
+import interfaces.Resettable;
 
 /**
  * Grid class that will contain a 2D array of Locations

@@ -1,6 +1,6 @@
-package main.java.objects;
+package objects;
 
-import main.java.interfaces.Resettable;
+import interfaces.Resettable;
 
 /**
  * Abstract Player class, contains important player data for the game
