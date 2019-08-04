@@ -1,1 +1,9 @@
+#settings
+battleship/.vscode/
+battleship/.settings/
+battleship/.classpath
+battleship/.project
+
+#build
 battleship/target/
+
