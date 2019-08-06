@@ -1,5 +1,7 @@
 package objects;
 
+import exceptions.LocationAlreadyOccupiedException;
+import exceptions.LocationOutOfBoundsException;
 import interfaces.Resettable;
 
 /**
@@ -47,8 +49,25 @@ public abstract class Player implements Resettable {
   public Player() {
     this.playerGrid = new Grid();
     this.ships = new Ship[NUM_STARTING_SHIPS];
-    for (int i = 0; i < NUM_STARTING_SHIPS; i++) {
-      this.ships[i] = new Ship(Player.SHIP_LENGTHS[i]);
+    // each ship will get initialized later
+  }
+
+  public void createAndPlaceShip(int length, String name, Ship.Orientation orientation, Coordinate head)
+      throws LocationAlreadyOccupiedException, LocationOutOfBoundsException {
+    int index = 0;
+    while (this.ships[index] != null) {
+      index++;
+    }
+    this.ships[index] = new Ship(length, name, orientation, head);
+
+    try {
+      this.playerGrid.setShip(this.ships[index]);
+    } catch (LocationAlreadyOccupiedException e) {
+      throw e;
+    } catch (LocationOutOfBoundsException e) {
+      throw e;
+    } catch (Exception e) {
+      throw e;
     }
   }
 
@@ -117,9 +136,6 @@ public abstract class Player implements Resettable {
 
     this.playerGrid = new Grid();
     this.ships = new Ship[NUM_STARTING_SHIPS];
-    for (int i = 0; i < NUM_STARTING_SHIPS; i++) {
-      this.ships[i] = new Ship(Player.SHIP_LENGTHS[i]);
-    }
   }
 
 }

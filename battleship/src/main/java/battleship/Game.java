@@ -18,16 +18,17 @@ public class Game {
 
         u.GetPlayerGrid().showGuesses();
 
-        Ship s = new Ship(4);
+        Ship s1 = new Ship(4, "battleship", Ship.Orientation.VERTICAL, new Coordinate('A', 3));
+        Ship s2 = new Ship(3, "cruiser", Ship.Orientation.HORIZONTAL, new Coordinate('D', 5));
 
         try {
-            u.GetPlayerGrid().setShip(3, 4, s, false);
+            u.GetPlayerGrid().setShip(s1);
+            u.GetPlayerGrid().setShip(s2);
         } catch (Exception e) {
-            System.out.println("oof");
+            System.out.println(e.getMessage());
         }
 
         u.GetPlayerGrid().showShips();
-
 
     }
 }

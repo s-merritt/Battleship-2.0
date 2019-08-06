@@ -6,7 +6,7 @@ import interfaces.Resettable;
  * Location class that will hold data about a location on the game grid
  */
 public class Location implements Resettable {
-  enum Status {
+  public enum Status {
     UNGUESSED, MISS, HIT
   }
 

@@ -5,6 +5,7 @@ import exceptions.LocationAlreadyOccupiedException;
 import exceptions.LocationOutOfBoundsException;
 import interfaces.Resettable;
 import objects.Location.Status;
+import objects.Ship.Orientation;
 
 /**
  * Grid class that will contain a 2D array of Locations
@@ -40,44 +41,45 @@ public class Grid implements Resettable {
    * coordinate and build to the right; if the ship is vertical, it will be placed
    * starting from the head coordinate and build downward
    * 
-   * @param headRow
-   * @param headCol
-   * @param Ship
-   * @param isHorizontal
-   * @throws LocationOutOfBoundsException
+   * @param ship Ship object
+   * @throws LocationOutOfBoundsException 
+   * @throws LocationAlreadyOccupiedException
    */
-  public void setShip(int headRow, int headCol, Ship ship, boolean isHorizontal)
-      throws LocationOutOfBoundsException, LocationAlreadyOccupiedException {
-    if (isHorizontal) { // only column number changes
+  public void setShip(Ship ship) throws LocationOutOfBoundsException, LocationAlreadyOccupiedException {
+    int headRow = ship.getHead().getGridRow();
+    int headCol = ship.getHead().getGridCol();
+    int len = ship.getLength();
+
+    if (ship.getOrientation() == Orientation.HORIZONTAL) { // only column number (Y) changes
       // check that ship will be within bounds
-      if (headCol + ship.getLength() > MAX_COLS) {
+      if (headCol + len > MAX_COLS) {
         throw new LocationOutOfBoundsException("Invalid Ship Location: out of bounds!");
       }
       // check that ship will not overlap existing ship
-      for (int i = 0; i < ship.getLength(); i++) {
+      for (int i = 0; i < len; i++) {
         if (grid[headRow][headCol + i].hasShip()) {
           throw new LocationAlreadyOccupiedException("Invalid Ship Location: ship will overlap with existing ship!");
         }
       }
 
       // place ship
-      for (int i = 0; i < ship.getLength(); i++) {
+      for (int i = 0; i < len; i++) {
         setShip(headRow, headCol + i);
       }
-    } else { // vertical, only row number changes
+    } else { // vertical, only row number (X) changes
       // check that ship will be within bounds
-      if (headRow + ship.getLength() > MAX_ROWS) {
+      if (headRow + len > MAX_ROWS) {
         throw new LocationOutOfBoundsException("Invalid Ship Location: out of bounds!");
       }
       // check that ship will not overlap existing ship
-      for (int i = 0; i < ship.getLength(); i++) {
+      for (int i = 0; i < len; i++) {
         if (grid[headRow + i][headCol].hasShip()) {
           throw new LocationAlreadyOccupiedException("Invalid Ship Location: ship will overlap with existing ship!");
         }
       }
 
       // place ship
-      for (int i = 0; i < ship.getLength(); i++) {
+      for (int i = 0; i < len; i++) {
         setShip(headRow + i, headCol);
       }
     }
