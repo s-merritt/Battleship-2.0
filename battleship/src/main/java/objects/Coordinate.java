@@ -1,10 +1,14 @@
 package objects;
 
 public class Coordinate {
+  //game column (e.g. A-J)
   private char gameColumn;
+  //game row (e.g. 1-10)
   private int gameRow;
 
+  //2D grid row
   private int gridRow;
+  //2D grid column
   private int gridCol;
 
   /**

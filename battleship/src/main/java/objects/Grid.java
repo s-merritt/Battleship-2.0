@@ -42,7 +42,7 @@ public class Grid implements Resettable {
    * starting from the head coordinate and build downward
    * 
    * @param ship Ship object
-   * @throws LocationOutOfBoundsException 
+   * @throws LocationOutOfBoundsException
    * @throws LocationAlreadyOccupiedException
    */
   public void setShip(Ship ship) throws LocationOutOfBoundsException, LocationAlreadyOccupiedException {
@@ -86,25 +86,15 @@ public class Grid implements Resettable {
   }
 
   /**
-   * Sets a ship at the given location
+   * Marks the specified coordinate to have a Ship in that Location
+   * 
+   * Does NOT check bounds as the caller does that already
    * 
    * @param row row number (0-9)
    * @param col col number (0-9)
-   * @throws LocationAlreadyOccupiedException, LocationOutOfBoundsException
    */
-  public void setShip(int row, int col) throws LocationAlreadyOccupiedException, LocationOutOfBoundsException {
-    // check that coords are within bounds
-    if (!withinBounds(row, col)) {
-      throw new LocationOutOfBoundsException("Location out of bounds!");
-    }
-
-    // check that Location does not have ship already
-    // if not, mark that is does; if it does, throw exception
-    if (this.grid[row][col].hasShip()) {
-      throw new LocationAlreadyOccupiedException("There's already a ship at that location!");
-    } else {
-      this.grid[row][col].setShip();
-    }
+  public void setShip(int row, int col) {
+    this.grid[row][col].setShip();
   }
 
   /**
@@ -114,8 +104,17 @@ public class Grid implements Resettable {
    * @param col
    * @return Location.Status HIT or MISS
    * @throws LocationAlreadyGuessedException
+   * @throws LocationOutOfBoundsException
    */
-  public Location.Status checkLocationForShip(int row, int col) throws LocationAlreadyGuessedException {
+  public Location.Status checkLocationForShip(Coordinate c)
+      throws LocationAlreadyGuessedException, LocationOutOfBoundsException {
+    int row = c.getGridRow();
+    int col = c.getGridCol();
+
+    if (!withinBounds(row, col)) {
+      throw new LocationOutOfBoundsException("Out Location out of bounds!");
+    }
+
     Location l = this.grid[row][col];
     // check if Location has already been guessed
     if (l.getStatus() != Status.UNGUESSED) {

@@ -11,24 +11,21 @@ public class Game {
         User u = new User();
 
         try {
-            u.GetPlayerGrid().checkLocationForShip(1, 3);
+            u.makeGuess(new Coordinate('F', 8));
         } catch (Exception e) {
             System.out.println("oof");
         }
 
-        u.GetPlayerGrid().showGuesses();
-
-        Ship s1 = new Ship(4, "battleship", Ship.Orientation.VERTICAL, new Coordinate('A', 3));
-        Ship s2 = new Ship(3, "cruiser", Ship.Orientation.HORIZONTAL, new Coordinate('D', 5));
+        u.showGuesses();
 
         try {
-            u.GetPlayerGrid().setShip(s1);
-            u.GetPlayerGrid().setShip(s2);
+            u.createAndPlaceShip(4, "battleship", Ship.Orientation.VERTICAL, new Coordinate('B', 3));
+            u.createAndPlaceShip(3, "cruiser", Ship.Orientation.HORIZONTAL, new Coordinate('G', 2));
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
 
-        u.GetPlayerGrid().showShips();
+        u.showShips();
 
     }
 }

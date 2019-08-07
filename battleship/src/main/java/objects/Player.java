@@ -1,5 +1,9 @@
 package objects;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import exceptions.LocationAlreadyGuessedException;
 import exceptions.LocationAlreadyOccupiedException;
 import exceptions.LocationOutOfBoundsException;
 import interfaces.Resettable;
@@ -41,27 +45,27 @@ public abstract class Player implements Resettable {
   /**
    * array of player ships
    */
-  private Ship[] ships;
+  private Map<String, Ship> ships;
 
   /**
    * default constructor
    */
   public Player() {
     this.playerGrid = new Grid();
-    this.ships = new Ship[NUM_STARTING_SHIPS];
+    this.ships = new HashMap<String, Ship>(NUM_STARTING_SHIPS);
     // each ship will get initialized later
   }
 
   public void createAndPlaceShip(int length, String name, Ship.Orientation orientation, Coordinate head)
       throws LocationAlreadyOccupiedException, LocationOutOfBoundsException {
-    int index = 0;
-    while (this.ships[index] != null) {
-      index++;
-    }
-    this.ships[index] = new Ship(length, name, orientation, head);
 
+    // create new ship and add to hasmap
+    Ship s = new Ship(length, name, orientation, head);
+    this.ships.put(name, s);
+
+    // attempt to place ship
     try {
-      this.playerGrid.setShip(this.ships[index]);
+      this.playerGrid.setShip(this.ships.get(name));
     } catch (LocationAlreadyOccupiedException e) {
       throw e;
     } catch (LocationOutOfBoundsException e) {
@@ -126,6 +130,18 @@ public abstract class Player implements Resettable {
     this.numRemainingShips--;
   }
 
+  public Location.Status makeGuess(Coordinate c) throws LocationOutOfBoundsException, LocationAlreadyGuessedException {
+    return this.playerGrid.checkLocationForShip(c);
+  }
+
+  public void showGuesses() {
+    this.playerGrid.showGuesses();
+  }
+
+  public void showShips() {
+    this.playerGrid.showShips();
+  }
+
   /**
    * Resets the Player's data to what it would be at the start of the game
    */
@@ -135,7 +151,7 @@ public abstract class Player implements Resettable {
     this.numRemainingShips = NUM_STARTING_SHIPS;
 
     this.playerGrid = new Grid();
-    this.ships = new Ship[NUM_STARTING_SHIPS];
+    this.ships = new HashMap<String, Ship>(NUM_STARTING_SHIPS);
   }
 
 }
