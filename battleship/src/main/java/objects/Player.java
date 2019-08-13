@@ -64,15 +64,7 @@ public abstract class Player implements Resettable {
     this.ships.put(name, s);
 
     // attempt to place ship
-    try {
-      this.playerGrid.setShip(this.ships.get(name));
-    } catch (LocationAlreadyOccupiedException e) {
-      throw e;
-    } catch (LocationOutOfBoundsException e) {
-      throw e;
-    } catch (Exception e) {
-      throw e;
-    }
+    this.playerGrid.setShip(this.ships.get(name));
   }
 
   /**
@@ -130,14 +122,32 @@ public abstract class Player implements Resettable {
     this.numRemainingShips--;
   }
 
-  public Location.Status makeGuess(Coordinate c) throws LocationOutOfBoundsException, LocationAlreadyGuessedException {
-    return this.playerGrid.checkLocationForShip(c);
+  /**
+   * Makes a guess on the opponent player's grid
+   * 
+   * @param c the coordinate of the guess being made
+   * @param p the opponent player
+   * @return Status of the Location (i.e. HIT or MISS)
+   * @throws LocationOutOfBoundsException
+   * @throws LocationAlreadyGuessedException
+   */
+  public Location.Status makeGuess(Coordinate c, Player p)
+      throws LocationOutOfBoundsException, LocationAlreadyGuessedException {
+    return p.GetPlayerGrid().checkLocationForShip(c);
   }
 
-  public void showGuesses() {
-    this.playerGrid.showGuesses();
+  /**
+   * Shows the guess of the current player on the given opponent's board
+   * 
+   * @param p the opponent player
+   */
+  public void showGuesses(Player p) {
+    p.GetPlayerGrid().showGuesses();
   }
 
+  /**
+   * Shows the ships of the player on their on grid
+   */
   public void showShips() {
     this.playerGrid.showShips();
   }

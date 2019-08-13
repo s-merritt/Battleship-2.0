@@ -1,14 +1,14 @@
 package objects;
 
 public class Coordinate {
-  //game column (e.g. A-J)
-  private char gameColumn;
-  //game row (e.g. 1-10)
+  // game column (e.g. A-J)
+  private char gameCol;
+  // game row (e.g. 1-10)
   private int gameRow;
 
-  //2D grid row
+  // 2D grid row
   private int gridRow;
-  //2D grid column
+  // 2D grid column
   private int gridCol;
 
   /**
@@ -21,9 +21,23 @@ public class Coordinate {
    * @param gameRow game grid row, ex. "5"
    */
   public Coordinate(char gameCol, int gameRow) {
-    this.gameColumn = gameCol;
+    this.gameCol = gameCol;
     this.gameRow = gameRow;
-    Translate(gameCol, gameRow);
+    TranslateGameToGrid(gameCol, gameRow);
+  }
+
+  /**
+   * Constructs Coordinate using coordinates from the 2D array
+   * 
+   * Translates into the equivalent game-board coordinate
+   * 
+   * @param gridRow 2D grid row
+   * @param gridCol 2D grid column
+   */
+  public Coordinate(int gridRow, int gridCol) {
+    this.gridRow = gridRow;
+    this.gridCol = gridCol;
+    TranslateGridToGame(gridRow, gridCol);
   }
 
   /**
@@ -33,9 +47,21 @@ public class Coordinate {
    * @param gameCol game grid column, ex. "D"
    * @param gameRow game grid row, ex. "5"
    */
-  public void Translate(char gameCol, int gameRow) {
+  public void TranslateGameToGrid(char gameCol, int gameRow) {
     this.gridRow = gameRow - 1;
     this.gridCol = (int) gameCol - 65;
+  }
+
+  /**
+   * Helper function to translate the 2D array coordinates into the equivalent
+   * game board coordinate
+   * 
+   * @param gridRow 2D grid row
+   * @param gridCol 2D grid column
+   */
+  public void TranslateGridToGame(int gridRow, int gridCol) {
+    this.gameRow = gridRow + 1;
+    this.gameCol = (char) (gridCol + 65);
   }
 
   /**
@@ -44,7 +70,7 @@ public class Coordinate {
    * @return gameColumn
    */
   public char getGameCol() {
-    return this.gameColumn;
+    return this.gameCol;
   }
 
   /**
@@ -72,5 +98,10 @@ public class Coordinate {
    */
   public int getGridCol() {
     return this.gridCol;
+  }
+
+  @Override
+  public String toString() {
+    return ("coordinate[" + this.gameCol) + (this.gameRow + "]");
   }
 }
