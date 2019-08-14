@@ -115,13 +115,12 @@ public class Grid implements Resettable {
       throw new LocationOutOfBoundsException("Out Location out of bounds!");
     }
 
-    Location l = this.grid[row][col];
     // check if Location has already been guessed
-    if (l.getStatus() != Status.UNGUESSED) {
+    if (this.grid[row][col].getStatus() != Status.UNGUESSED) {
       throw new LocationAlreadyGuessedException("Location has already been guessed!");
     }
 
-    if (l.hasShip()) {
+    if (this.grid[row][col].hasShip()) {
       this.grid[row][col].markHit();
       return Location.Status.HIT;
     } else {
@@ -129,6 +128,32 @@ public class Grid implements Resettable {
       return Location.Status.MISS;
     }
 
+  }
+
+  /**
+   * Helper function that only peeks at the Location of the given coordinate. That
+   * is, it will not mark the Location in anyway, it will only return the status
+   * or throw an exception
+   * 
+   * @param c Coordinate of interest
+   */
+  public Status PeekLocation(Coordinate c) throws LocationAlreadyGuessedException, LocationOutOfBoundsException {
+    int row = c.getGridRow();
+    int col = c.getGridCol();
+
+    if (!withinBounds(row, col)) {
+      throw new LocationOutOfBoundsException("Out Location out of bounds!");
+    }
+
+    // check if Location has already been guessed
+    if (this.grid[row][col].getStatus() != Status.UNGUESSED) {
+      throw new LocationAlreadyGuessedException("Location has already been guessed!");
+    }
+
+    if (this.grid[row][col].hasShip())
+      return Location.Status.HIT;
+    else
+      return Location.Status.MISS;
   }
 
   /**

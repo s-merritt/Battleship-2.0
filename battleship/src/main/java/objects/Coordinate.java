@@ -1,6 +1,10 @@
 package objects;
 
 public class Coordinate {
+  public enum NeighboringDirection {
+    VERTICAL, HORIZONTAL, NONE
+  }
+
   // game column (e.g. A-J)
   private char gameCol;
   // game row (e.g. 1-10)
@@ -62,6 +66,29 @@ public class Coordinate {
   public void TranslateGridToGame(int gridRow, int gridCol) {
     this.gameRow = gridRow + 1;
     this.gameCol = (char) (gridCol + 65);
+  }
+
+  /**
+   * Helper function to see if the given coordinate is a neighbor of this
+   * coordinate.
+   * 
+   * NOTE: assumes that both coordinates are valid
+   * 
+   * @param c potential neighboring coordinate
+   * @return NeighboringDirection
+   */
+  public NeighboringDirection Neighbor(Coordinate c) {
+    int diffRow = this.gridRow - c.getGridRow();
+    int diffCol = this.gridCol - c.getGridCol();
+
+    if (diffRow == 0) {
+      return NeighboringDirection.HORIZONTAL;
+    } else if (diffCol == 0) {
+      return NeighboringDirection.VERTICAL;
+    }
+
+    return NeighboringDirection.NONE;
+
   }
 
   /**

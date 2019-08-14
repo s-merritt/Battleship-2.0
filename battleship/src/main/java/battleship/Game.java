@@ -1,11 +1,14 @@
 package battleship;
 
+import java.util.concurrent.TimeUnit;
+
 import exceptions.LocationAlreadyGuessedException;
 import exceptions.LocationOutOfBoundsException;
 import objects.Coordinate;
 import objects.Location;
 import objects.Ship;
 import objects.User;
+import objects.computers.HunterComputer;
 import objects.computers.SimpleComputer;
 
 /**
@@ -15,7 +18,7 @@ import objects.computers.SimpleComputer;
 public class Game {
     public static void main(String[] args) {
         User u = new User();
-        SimpleComputer c = new SimpleComputer();
+        HunterComputer c = new HunterComputer();
 
         try {
             u.makeGuess(new Coordinate('F', 8), c);
@@ -34,20 +37,24 @@ public class Game {
 
         Location.Status s = null;
 
-        try {
-           // s = c.makeGuess(u);
-           s = c.makeGuess(u);
-        } catch (LocationAlreadyGuessedException e) {
-            System.out.println("Already Guessed!");
-        } catch (LocationOutOfBoundsException e) {
-            System.out.println("Out of bounds!");
-        }
+        while (true) {
+            try {
+                s = c.makeGuess(u);
+                System.out.println(s.toString());
+                c.showGuesses(u);
 
-        if (s != null) {
-            System.out.println(s.toString());
-        }
+                try {
+                    TimeUnit.SECONDS.sleep(2);
+                } catch (Exception e) {
+                }
+            } catch (LocationAlreadyGuessedException e) {
+                System.out.println("Already Guessed!");
+            } catch (LocationOutOfBoundsException e) {
+                System.out.println("Out of bounds!");
+            }
 
-        c.showGuesses(u);
+            
+        }
 
     }
 }
