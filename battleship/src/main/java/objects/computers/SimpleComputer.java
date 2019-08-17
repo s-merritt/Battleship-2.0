@@ -27,7 +27,7 @@ public class SimpleComputer extends Computer {
    * @throws LocationAlreadyGuessedException
    */
   @Override
-  public Location.Status makeGuess(Player p) throws LocationOutOfBoundsException, LocationAlreadyGuessedException {
+  public Location.Status makeGuess() throws LocationOutOfBoundsException, LocationAlreadyGuessedException {
     Coordinate nextGuess;
     if (hasGuesses()) { // get a guess if it already has one
       nextGuess = getNextGuess();
@@ -38,7 +38,7 @@ public class SimpleComputer extends Computer {
     // TODO debug
     System.out.println("computers guess: " + nextGuess.toString());
 
-    return makeGuess(nextGuess, p);
+    return makeGuess(nextGuess);
   }
 
   /**

@@ -23,7 +23,7 @@ public abstract class Computer extends Player {
     this.rand = new Random();
   }
 
-  public abstract Status makeGuess(Player p) throws LocationOutOfBoundsException, LocationAlreadyGuessedException;
+  public abstract Status makeGuess() throws LocationOutOfBoundsException, LocationAlreadyGuessedException;
 
   public abstract Coordinate makeNewGuess();
 

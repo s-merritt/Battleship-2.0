@@ -37,7 +37,7 @@ public class HunterComputer extends Computer {
    * @throws LocationAlreadyGuessedException
    */
   @Override
-  public Location.Status makeGuess(Player p) throws LocationOutOfBoundsException, LocationAlreadyGuessedException {
+  public Location.Status makeGuess() throws LocationOutOfBoundsException, LocationAlreadyGuessedException {
     Coordinate nextGuess;
     if (hasGuesses()) { // get a guess if it already has one
       nextGuess = getNextGuess();
@@ -48,19 +48,19 @@ public class HunterComputer extends Computer {
     // TODO debug
     System.out.println("computers guess: " + nextGuess.toString());
 
-    Location.Status result = makeGuess(nextGuess, p);
+    Location.Status result = makeGuess(nextGuess);
 
     if (result == Location.Status.HIT) {
       // if new hit is next to previous hit, we know the direction of the ship and can
       // narrow down our search for the next Coordinate that has a Ship
       if (prevHit != null) {
         this.attackDirection = translateDirection(nextGuess.Neighbor(prevHit));
-        trimGuesses();
+        this.trimGuesses();
         System.out.println("attack dir: " + this.attackDirection);
       }
 
       // save surrounding points in order to search around that spot
-      LookAround(nextGuess, p);
+      this.LookAround(nextGuess);
       this.prevHit = nextGuess;
     }
 
@@ -91,7 +91,7 @@ public class HunterComputer extends Computer {
    * @param c Coordinate to search around
    * @param p Opponent
    */
-  public void LookAround(Coordinate c, Player p) {
+  public void LookAround(Coordinate c) {
     char gameCol = c.getGameCol();
     int gameRow = c.getGameRow();
 
@@ -120,7 +120,7 @@ public class HunterComputer extends Computer {
       System.out.println(coord.toString());
       // check if the Coordinate will be a valid guess, remove it if it is not
       try {
-        p.GetPlayerGrid().PeekLocation(coord);
+        this.opponent.GetPlayerGrid().PeekLocation(coord);
 
         // if passed through try-catch, must be valid coordiante
         this.nextGuesses.push(coord);
