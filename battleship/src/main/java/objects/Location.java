@@ -11,6 +11,11 @@ public class Location implements Resettable {
   }
 
   /**
+   * holds the ID of the ship occupy this Location
+   */
+  private int shipID = 0;
+
+  /**
    * whether or not the Location has a Ship in it
    */
   private boolean occupied = false;
@@ -45,10 +50,29 @@ public class Location implements Resettable {
   }
 
   /**
+   * ship ID getter
+   * 
+   * @return shipID
+   */
+  public int getShipID() {
+    return this.shipID;
+  }
+
+  /**
+   * ship ID setter
+   * 
+   * @param shipID
+   */
+  public void setShipID(int shipID) {
+    this.shipID = shipID;
+  }
+
+  /**
    * Marks the Location as occupied
    */
-  public void setShip() {
+  public void setShip(int id) {
     this.occupied = true;
+    this.shipID = id;
   }
 
   /**

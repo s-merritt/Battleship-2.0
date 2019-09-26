@@ -42,13 +42,28 @@ public class Ship implements Resettable {
   private Coordinate head;
 
   /**
-   * Constructs ship with desired length
-   * 
-   * @param length
+   * Health of a ship, i.e. how many unhit spots it has left
    */
-  public Ship(int length, String name, Orientation orientation, Coordinate head) {
+  private int health;
+
+  /**
+   * ID of the ship
+   */
+  private int id;
+
+  /**
+   * Constructs a ship
+   * 
+   * @param id
+   * @param length
+   * @param name
+   * @param orientation
+   * @param head
+   */
+  public Ship(int id, int length, String name, Orientation orientation, Coordinate head) {
+    this.id = id;
     this.status = Status.UNPLACED;
-    this.length = length;
+    this.health = this.length = length;
     this.name = name;
     this.orientation = orientation;
     this.head = head;
@@ -56,10 +71,20 @@ public class Ship implements Resettable {
 
   /**
    * Head getter
+   * 
    * @return head
    */
-  public Coordinate getHead(){
+  public Coordinate getHead() {
     return this.head;
+  }
+
+  /**
+   * ID getter
+   * 
+   * @return id
+   */
+  public int getID() {
+    return this.id;
   }
 
   /**
@@ -76,6 +101,27 @@ public class Ship implements Resettable {
    */
   public int getLength() {
     return this.length;
+  }
+
+  /**
+   * health getter
+   * 
+   * @return health
+   */
+  public int getHealth() {
+    return this.health;
+  }
+
+  /**
+   * Decrement ship's health
+   * 
+   * If the ship's health reaches zero, the ship is sunk
+   */
+  public void decrementHealth() {
+    this.health--;
+    if (health == 0) {
+      this.sinkShip();
+    }
   }
 
   /**
@@ -111,9 +157,19 @@ public class Ship implements Resettable {
   }
 
   /**
+   * head coordinate setter
+   * 
+   * @param head
+   */
+  public void setHead(Coordinate head) {
+    this.head = head;
+  }
+
+  /**
    * Reset the Ship
    */
   public void Reset() {
+    this.health = this.length;
     this.status = Status.UNPLACED;
   }
 }

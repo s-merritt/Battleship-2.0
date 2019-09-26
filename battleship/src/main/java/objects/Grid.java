@@ -64,7 +64,7 @@ public class Grid implements Resettable {
 
       // place ship
       for (int i = 0; i < len; i++) {
-        setShip(headRow, headCol + i);
+        setShip(headRow, headCol + i, ship.getID());
       }
     } else { // vertical, only row number (X) changes
       // check that ship will be within bounds
@@ -80,7 +80,7 @@ public class Grid implements Resettable {
 
       // place ship
       for (int i = 0; i < len; i++) {
-        setShip(headRow + i, headCol);
+        setShip(headRow + i, headCol, ship.getID());
       }
     }
   }
@@ -92,9 +92,10 @@ public class Grid implements Resettable {
    * 
    * @param row row number (0-9)
    * @param col col number (0-9)
+   * @param id  id of the ship being set
    */
-  public void setShip(int row, int col) {
-    this.grid[row][col].setShip();
+  public void setShip(int row, int col, int id) {
+    this.grid[row][col].setShip(id);
   }
 
   /**
@@ -102,12 +103,11 @@ public class Grid implements Resettable {
    * 
    * @param row
    * @param col
-   * @return Location.Status HIT or MISS
+   * @return shipID (> 0) if HIT, 0 if MISS
    * @throws LocationAlreadyGuessedException
    * @throws LocationOutOfBoundsException
    */
-  public Location.Status checkLocationForShip(Coordinate c)
-      throws LocationAlreadyGuessedException, LocationOutOfBoundsException {
+  public int checkLocationForShip(Coordinate c) throws LocationAlreadyGuessedException, LocationOutOfBoundsException {
     int row = c.getGridRow();
     int col = c.getGridCol();
 
@@ -115,20 +115,42 @@ public class Grid implements Resettable {
       throw new LocationOutOfBoundsException("Out Location out of bounds!");
     }
 
-    Location l = this.grid[row][col];
     // check if Location has already been guessed
-    if (l.getStatus() != Status.UNGUESSED) {
+    if (this.grid[row][col].getStatus() != Status.UNGUESSED) {
       throw new LocationAlreadyGuessedException("Location has already been guessed!");
     }
 
-    if (l.hasShip()) {
+    if (this.grid[row][col].hasShip()) {
       this.grid[row][col].markHit();
-      return Location.Status.HIT;
+      return this.grid[row][col].getShipID();
     } else {
       this.grid[row][col].markMiss();
-      return Location.Status.MISS;
+      return 0;
     }
 
+  }
+
+  /**
+   * Helper function that only peeks at the Location of the given coordinate. That
+   * is, it will not mark the Location in any way, it will only return 1 for
+   * success or throw an exception
+   * 
+   * @param c Coordinate of interest
+   */
+  public int PeekLocation(Coordinate c) throws LocationAlreadyGuessedException, LocationOutOfBoundsException {
+    int row = c.getGridRow();
+    int col = c.getGridCol();
+
+    if (!withinBounds(row, col)) {
+      throw new LocationOutOfBoundsException("Out Location out of bounds!");
+    }
+
+    // check if Location has already been guessed
+    if (this.grid[row][col].getStatus() != Status.UNGUESSED) {
+      throw new LocationAlreadyGuessedException("Location has already been guessed!");
+    }
+
+    return 1;
   }
 
   /**
@@ -191,6 +213,20 @@ public class Grid implements Resettable {
       System.out.println();
     }
 
+  }
+
+  /**
+   * Helper function to get the Location at a given coordinate
+   * 
+   * @param c coordinate of interest
+   * @return Location at the given coordinate
+   * @throws LocationOutOfBoundsException
+   */
+  public Location at(Coordinate c) throws LocationOutOfBoundsException {
+    if (!withinBounds(c.getGridRow(), c.getGridCol()))
+      throw new LocationOutOfBoundsException("Coordinate out of bounds!");
+    else
+      return grid[c.getGridRow()][c.getGridCol()];
   }
 
   /**
