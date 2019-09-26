@@ -6,14 +6,15 @@ import exceptions.LocationAlreadyGuessedException;
 import exceptions.LocationOutOfBoundsException;
 import objects.Coordinate;
 import objects.Location;
-import objects.Player;
-import objects.Coordinate.NeighboringDirection;
 
 public class HunterComputer extends Computer {
   private enum AttackDirection {
     VERTICAL, HORIZONTAL, UNSET
   }
 
+  /**
+   * Direction of the Computer's attack, determined after two hits are made
+   */
   private AttackDirection attackDirection;
 
   /**
@@ -117,7 +118,6 @@ public class HunterComputer extends Computer {
     }
 
     for (Coordinate coord : temp) {
-      System.out.println(coord.toString());
       // check if the Coordinate will be a valid guess, remove it if it is not
       try {
         this.opponent.GetPlayerGrid().PeekLocation(coord);
@@ -125,6 +125,17 @@ public class HunterComputer extends Computer {
         // if passed through try-catch, must be valid coordiante
         this.nextGuesses.push(coord);
       } catch (LocationAlreadyGuessedException e) {
+        /** TODO fix logic here
+        // if location was already guessed, check if that guess was a HIT. If so -- and
+        // it wasn't the previous hit -- then it may have been part of a previous attack
+        // made against a different ship! We'll wan't to look around that hit too to
+        // make sure
+        try {
+          if (this.opponent.GetPlayerGrid().at(coord).getStatus() == Location.Status.HIT && !coord.equals(this.prevHit))
+            LookAround(coord);
+        } catch (LocationOutOfBoundsException e2) {
+        }
+        */
       } catch (LocationOutOfBoundsException e) {
       }
     }
@@ -137,7 +148,6 @@ public class HunterComputer extends Computer {
     for (Coordinate c : this.nextGuesses) {
       // remove any coordinates that aren't in the attack direction
       if (translateDirection(c.Neighbor(this.prevHit)) != this.attackDirection) {
-        System.out.println("removed unneeded coord");
         nextGuesses.remove(c);
       }
     }

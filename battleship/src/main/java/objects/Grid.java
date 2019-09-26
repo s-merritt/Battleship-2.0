@@ -92,7 +92,7 @@ public class Grid implements Resettable {
    * 
    * @param row row number (0-9)
    * @param col col number (0-9)
-   * @param id id of the ship being set
+   * @param id  id of the ship being set
    */
   public void setShip(int row, int col, int id) {
     this.grid[row][col].setShip(id);
@@ -132,8 +132,8 @@ public class Grid implements Resettable {
 
   /**
    * Helper function that only peeks at the Location of the given coordinate. That
-   * is, it will not mark the Location in anyway, it will only return 1 for success
-   * or throw an exception
+   * is, it will not mark the Location in any way, it will only return 1 for
+   * success or throw an exception
    * 
    * @param c Coordinate of interest
    */
@@ -213,6 +213,20 @@ public class Grid implements Resettable {
       System.out.println();
     }
 
+  }
+
+  /**
+   * Helper function to get the Location at a given coordinate
+   * 
+   * @param c coordinate of interest
+   * @return Location at the given coordinate
+   * @throws LocationOutOfBoundsException
+   */
+  public Location at(Coordinate c) throws LocationOutOfBoundsException {
+    if (!withinBounds(c.getGridRow(), c.getGridCol()))
+      throw new LocationOutOfBoundsException("Coordinate out of bounds!");
+    else
+      return grid[c.getGridRow()][c.getGridCol()];
   }
 
   /**
