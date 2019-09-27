@@ -215,6 +215,8 @@ public abstract class Player implements Resettable {
     this.playerGrid.showShips();
   }
 
+  public abstract void placeShips();
+
   /**
    * Resets the Player's data to what it would be at the start of the game
    */

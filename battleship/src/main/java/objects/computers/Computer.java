@@ -45,6 +45,10 @@ public abstract class Computer extends Player {
     return !this.nextGuesses.isEmpty();
   }
 
+  /**
+   * Computer places their ships randomly on the board
+   */
+  @Override
   public void placeShips() {
     for (int i = 0; i < NUM_STARTING_SHIPS;) {
       // random place on the grid
