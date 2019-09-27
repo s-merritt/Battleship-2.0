@@ -20,12 +20,13 @@ public abstract class Player implements Resettable {
   /**
    * ship lengths
    */
-  public static final int[] SHIP_LENGTHS = { 5, 4, 3, 3, 2};
+  public static final int[] SHIP_LENGTHS = { 5, 4, 3, 3, 2 };
 
   /**
    * default ship names
    */
-  public static final String[] SHIP_NAMES = { "Aircraft Carrier", "Battleship", "Missile Cruiser", "Submarine", "Patrol Boat" };
+  public static final String[] SHIP_NAMES = { "Aircraft Carrier", "Battleship", "Missile Cruiser", "Submarine",
+      "Patrol Boat" };
 
   /**
    * number of ships each player starts with
@@ -167,7 +168,7 @@ public abstract class Player implements Resettable {
   public Location.Status makeGuess(Coordinate c) throws LocationOutOfBoundsException, LocationAlreadyGuessedException {
     int id = this.opponent.GetPlayerGrid().checkLocationForShip(c);
 
-    System.out.println("id at locaiton: " + id);
+    System.out.println("id at locaiton: " + id); // TODO debug only
 
     if (id > 0) {
       this.opponent.LoseShipHealth(id);

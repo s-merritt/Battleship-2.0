@@ -2,10 +2,6 @@ package battleship;
 
 import objects.computers.*;
 import objects.*;
-import objects.Ship.Orientation;
-
-import exceptions.LocationAlreadyOccupiedException;
-import exceptions.LocationOutOfBoundsException;
 
 /**
  * @class Game
@@ -19,7 +15,12 @@ public class Game {
   private Computer computer;
   private User user;
 
-  private Player current_attacker;
+  /**
+   * keeps track of whose turn it is
+   * 
+   * true if user's turn, false for computer's turn
+   */
+  private boolean userTurn;
 
   /**
    * Default constructor
@@ -27,6 +28,11 @@ public class Game {
   public Game() {
     this.computer = new HunterComputer();
     this.user = new User();
+
+    this.computer.setOpponentPlayer(this.user);
+    this.user.setOpponentPlayer(this.computer);
+
+    this.userTurn = true; // user goes first for now, randomize this later
   }
 
   public void UserPlaceShips() {
@@ -43,24 +49,63 @@ public class Game {
     this.computer.GetPlayerGrid().showShips();
   }
 
+  /**
+   * Checks the number of remaining ships for each player to determine a winner
+   * (if there is one at the time)
+   * 
+   * @return 0 if no winner, 1 if user wins, -1 if computer wins
+   */
   public int CheckWin() {
-    return 0;
+    if (this.user.GetNumRemainingShips() == 0)
+      return 1;
+    else if (this.computer.GetNumRemainingShips() == 0)
+      return -1;
+    else
+      return 0;
+  }
+
+  public boolean isUserTurn() {
+    return this.userTurn;
+  }
+
+  public void SwitchTurns() {
+    this.userTurn = !this.userTurn;
+  }
+
+  public void doUserTurn() {
+    this.user.GetUserGuess();
+  }
+
+  public void doComputerTurn() {
+
   }
 
   /**
    * main function to call for running the game
    * 
-   * @return result code (0 is all good, not zero means error)
+   * @return result code (0 is all good, not 0 means error)
    */
   public int Run() {
+    // UserPlaceShips();
+    // ComputerPlaceShips();
+
+    while (CheckWin() == 0) {
+      // do game
+      if (isUserTurn()) {
+        doUserTurn();
+      } else {
+        doComputerTurn();
+      }
+      SwitchTurns();
+    }
+
     return 0;
   }
 
   public static void main(String[] args) {
     Game g = new Game();
 
-    g.UserPlaceShips();
-    g.ComputerPlaceShips();
+    g.Run();
 
   }
 }

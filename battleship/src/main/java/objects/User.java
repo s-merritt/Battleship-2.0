@@ -2,6 +2,7 @@ package objects;
 
 import java.util.Scanner;
 
+import exceptions.LocationAlreadyGuessedException;
 import exceptions.LocationAlreadyOccupiedException;
 import exceptions.LocationOutOfBoundsException;
 import objects.Ship.Orientation;
@@ -9,12 +10,12 @@ import objects.Ship.Orientation;
 public class User extends Player {
   public static final Scanner IN = new Scanner(System.in);
 
-  public User(){
+  public User() {
     super();
   }
 
   @Override
-  public void placeShips(){
+  public void placeShips() {
     System.out.println("It's time for you to place your ships.");
     Pause(1);
     System.out.println("We'll start with the largest one and work our way down.");
@@ -110,6 +111,50 @@ public class User extends Player {
       System.out.println("Invalid Coordinate, not within grid");
       return null;
     }
+  }
+
+  public void GetUserGuess() {
+    System.out.println("Your turn to guess!\nHere's what you've guessed so far:");
+    this.showGuesses();
+
+    boolean valid = false;
+    Coordinate coord = new Coordinate(-1, -1);
+    while (!valid) {
+      System.out.println("Enter a coordinate (e.g. A1 or a1)");
+      String raw_coord = User.IN.next();
+
+      coord = parseRawCoordinate(raw_coord.toUpperCase());
+
+      if (coord == null) {
+        System.out.println("Please try again");
+        continue;
+      }
+
+      Location.Status status = Location.Status.UNGUESSED;
+      try {
+        status = this.makeGuess(coord);
+        valid = true;
+      } catch (LocationOutOfBoundsException e) {
+        System.out.println("That coordinate is out of bounds! Try again...");
+      } catch (LocationAlreadyGuessedException e) {
+        System.out.println("You already guessed that coordiante! Try again...");
+      }
+
+      if (status == Location.Status.HIT) {
+        System.out.println("HIT, you get to go again!");
+        // even the guess was valid, we want to repeat the Guessing logic
+        valid = false;
+      } else if (status == Location.Status.MISS) {
+        System.out.println("MISS, your turn is over...");
+      } else {
+        // error
+        System.out.println("Something went wrong!");
+        System.exit(1);
+      }
+      Pause(1);
+      this.showGuesses();
+    }
+
   }
 
   public static void Pause(int seconds) {
