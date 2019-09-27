@@ -15,12 +15,17 @@ public abstract class Player implements Resettable {
   /**
    * starting number of ships
    */
-  private static final int NUM_STARTING_SHIPS = 5;
+  public static final int NUM_STARTING_SHIPS = 5;
 
   /**
    * ship lengths
    */
-  private static final int[] SHIP_LENGTHS = { 2, 3, 3, 4, 5 };
+  public static final int[] SHIP_LENGTHS = { 5, 4, 3, 3, 2};
+
+  /**
+   * default ship names
+   */
+  public static final String[] SHIP_NAMES = { "Aircraft Carrier", "Battleship", "Missile Cruiser", "Submarine", "Patrol Boat" };
 
   /**
    * number of ships each player starts with

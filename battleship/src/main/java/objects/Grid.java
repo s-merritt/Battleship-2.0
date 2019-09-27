@@ -159,7 +159,7 @@ public class Grid implements Resettable {
    * @param row
    * @param col
    */
-  public boolean withinBounds(int row, int col) {
+  public static boolean withinBounds(int row, int col) {
     return row < MAX_ROWS && row >= 0 && col < MAX_COLS && col >= 0;
   }
 
@@ -191,6 +191,7 @@ public class Grid implements Resettable {
   }
 
   public void showShips() {
+    System.out.println(" ====== Your Board ====== ");
     System.out.print("   ");
     for (int i = 0; i < MAX_COLS; i++) {
       System.out.print((char) (i + 65) + " ");

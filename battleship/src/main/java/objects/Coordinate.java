@@ -43,7 +43,7 @@ public class Coordinate {
     this.gridCol = gridCol;
     TranslateGridToGame(gridRow, gridCol);
   }
-
+  
   /**
    * Helper function to translate the game grid's coordinates into what those
    * coordinates would be on a 2D array
