@@ -218,6 +218,7 @@ public abstract class Player implements Resettable {
   /**
    * Resets the Player's data to what it would be at the start of the game
    */
+  @Override
   public void Reset() {
     this.numHits = 0;
     this.numMisses = 0;

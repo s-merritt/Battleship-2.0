@@ -168,6 +168,7 @@ public class Ship implements Resettable {
   /**
    * Reset the Ship
    */
+  @Override
   public void Reset() {
     this.health = this.length;
     this.status = Status.UNPLACED;

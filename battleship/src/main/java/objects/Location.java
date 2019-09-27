@@ -92,6 +92,7 @@ public class Location implements Resettable {
   /**
    * Resets the Location to its initial values
    */
+  @Override
   public void Reset() {
     this.occupied = false;
     this.status = Status.UNGUESSED;

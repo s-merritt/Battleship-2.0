@@ -59,19 +59,18 @@ public class Game {
 
         if (head != null) {
           valid = true;
-          System.out.println("Coordinate received: " + head.toString());
         } else {
           System.out.println("Please try again");
         }
       }
+
       valid = false;
       Ship.Orientation orientation = Orientation.HORIZONTAL;
-      in.nextLine();
+      in.nextLine(); // eat up new line character
       while (!valid) {
         System.out.println("Now enter an orientation: v (for vertical) or h (for horizontal)");
 
         String orien_input = in.next();
-        System.out.println("orientation received: " + orien_input);
 
         if (orien_input.equals("v")) {
           orientation = Ship.Orientation.VERTICAL;
@@ -100,8 +99,14 @@ public class Game {
     return 0;
   }
 
-  public int ComputerPlaceShips() {
-    return 0;
+  public void ComputerPlaceShips() {
+    System.out.println("Now it's the computers turn to place their ships.");
+    Pause(1);
+    this.computer.placeShips();
+    System.out.println("All done.");
+
+    //TODO debug only
+    this.computer.GetPlayerGrid().showShips();
   }
 
   public int CheckWin() {
@@ -160,6 +165,8 @@ public class Game {
   public static void main(String[] args) {
     Game g = new Game();
 
-    g.UserPlaceShips();
+ //   g.UserPlaceShips();
+    g.ComputerPlaceShips();
+
   }
 }

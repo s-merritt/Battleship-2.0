@@ -233,6 +233,7 @@ public class Grid implements Resettable {
   /**
    * Reset method override, resets the Grid
    */
+  @Override
   public void Reset() {
     for (Location[] row : this.grid) {
       for (Location l : row) {
