@@ -218,6 +218,14 @@ public abstract class Player implements Resettable {
 
   public abstract void placeShips();
 
+  public static void Pause(int seconds) {
+    try {
+      Thread.sleep(seconds * 1000);
+    } catch (InterruptedException e) {
+      System.exit(1);
+    }
+  }
+
   /**
    * Resets the Player's data to what it would be at the start of the game
    */

@@ -77,7 +77,25 @@ public class Game {
   }
 
   public void doComputerTurn() {
+    System.out.println("Now it's the computer's turn.");
+    boolean madeHit = false;
+    do {
+      Player.Pause(1);
+      try {
+        Location.Status status = this.computer.makeGuess();
+        Player.Pause(1);
+        if (status == Location.Status.HIT) {
+          System.out.println("HIT! They get to go again.");
+          madeHit = true;
+        } else {
+          System.out.println("MISS! That's the end of their turn");
+          madeHit = false;
+        }
+      } catch (Exception e) {
 
+      }
+      Player.Pause(2);
+    } while (madeHit);
   }
 
   /**
@@ -86,8 +104,8 @@ public class Game {
    * @return result code (0 is all good, not 0 means error)
    */
   public int Run() {
-    // UserPlaceShips();
-    // ComputerPlaceShips();
+    UserPlaceShips();
+    ComputerPlaceShips();
 
     while (CheckWin() == 0) {
       // do game

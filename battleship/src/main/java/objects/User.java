@@ -136,8 +136,10 @@ public class User extends Player {
         valid = true;
       } catch (LocationOutOfBoundsException e) {
         System.out.println("That coordinate is out of bounds! Try again...");
+        continue;
       } catch (LocationAlreadyGuessedException e) {
         System.out.println("You already guessed that coordiante! Try again...");
+        continue;
       }
 
       if (status == Location.Status.HIT) {
@@ -157,11 +159,5 @@ public class User extends Player {
 
   }
 
-  public static void Pause(int seconds) {
-    try {
-      Thread.sleep(seconds * 1000);
-    } catch (InterruptedException e) {
-      System.exit(1);
-    }
-  }
+  
 }
