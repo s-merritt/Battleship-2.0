@@ -15,12 +15,18 @@ public abstract class Player implements Resettable {
   /**
    * starting number of ships
    */
-  private static final int NUM_STARTING_SHIPS = 5;
+  public static final int NUM_STARTING_SHIPS = 5;
 
   /**
    * ship lengths
    */
-  private static final int[] SHIP_LENGTHS = { 2, 3, 3, 4, 5 };
+  public static final int[] SHIP_LENGTHS = { 5, 4, 3, 3, 2 };
+
+  /**
+   * default ship names
+   */
+  public static final String[] SHIP_NAMES = { "Aircraft Carrier", "Battleship", "Missile Cruiser", "Submarine",
+      "Patrol Boat" };
 
   /**
    * number of ships each player starts with
@@ -162,8 +168,6 @@ public abstract class Player implements Resettable {
   public Location.Status makeGuess(Coordinate c) throws LocationOutOfBoundsException, LocationAlreadyGuessedException {
     int id = this.opponent.GetPlayerGrid().checkLocationForShip(c);
 
-    System.out.println("id at locaiton: " + id);
-
     if (id > 0) {
       this.opponent.LoseShipHealth(id);
       this.incrementHits();
@@ -200,6 +204,7 @@ public abstract class Player implements Resettable {
    * Shows the guess of the current player on the given opponent's board
    */
   public void showGuesses() {
+    System.out.println(" ===== Your Guesses =====");
     this.opponent.GetPlayerGrid().showGuesses();
   }
 
@@ -210,9 +215,20 @@ public abstract class Player implements Resettable {
     this.playerGrid.showShips();
   }
 
+  public abstract void placeShips();
+
+  public static void Pause(int seconds) {
+    try {
+      Thread.sleep(seconds * 1000);
+    } catch (InterruptedException e) {
+      System.exit(1);
+    }
+  }
+
   /**
    * Resets the Player's data to what it would be at the start of the game
    */
+  @Override
   public void Reset() {
     this.numHits = 0;
     this.numMisses = 0;
