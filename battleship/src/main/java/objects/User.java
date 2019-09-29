@@ -19,8 +19,9 @@ public class User extends Player {
     System.out.println("It's time for you to place your ships.");
     Pause(1);
     System.out.println("We'll start with the largest one and work our way down.");
+    Pause(1);
     System.out.println(
-        "You will provide a coordinate and orientation for the ship. The ship will placed starting at that coordinate, \nand place it in the direction that you specified (top-down for vertical ships, left-right for horizontal ships).");
+        "You will provide a coordinate and orientation for the ship. The ship will placed starting at that coordinate, and place it in the direction that you specified (top-down for vertical ships, left-right for horizontal ships).");
     Pause(2);
     System.out.println(
         "We'll check to make sure that the ship can be placed there first; if the spot you chose was invalid, you can try again");
@@ -113,13 +114,10 @@ public class User extends Player {
     }
   }
 
-  public void GetUserGuess() {
-    System.out.println("Your turn to guess!\nHere's what you've guessed so far:");
-    this.showGuesses();
-
-    boolean valid = false;
+  public boolean GetUserGuess() {
     Coordinate coord = new Coordinate(-1, -1);
-    while (!valid) {
+    Location.Status status = Location.Status.UNGUESSED;
+    while (true) {
       System.out.println("Enter a coordinate (e.g. A1 or a1)");
       String raw_coord = User.IN.next();
 
@@ -127,37 +125,39 @@ public class User extends Player {
 
       if (coord == null) {
         System.out.println("Please try again");
+        Pause(1);
         continue;
       }
 
-      Location.Status status = Location.Status.UNGUESSED;
       try {
         status = this.makeGuess(coord);
-        valid = true;
+        break;
       } catch (LocationOutOfBoundsException e) {
         System.out.println("That coordinate is out of bounds! Try again...");
+        Pause(1);
         continue;
       } catch (LocationAlreadyGuessedException e) {
         System.out.println("You already guessed that coordiante! Try again...");
+        Pause(1);
         continue;
       }
-
-      if (status == Location.Status.HIT) {
-        System.out.println("HIT, you get to go again!");
-        // even the guess was valid, we want to repeat the Guessing logic
-        valid = false;
-      } else if (status == Location.Status.MISS) {
-        System.out.println("MISS, your turn is over...");
-      } else {
-        // error
-        System.out.println("Something went wrong!");
-        System.exit(1);
-      }
-      Pause(1);
-      this.showGuesses();
     }
+    boolean wasHit = false;
+    if (status == Location.Status.HIT) {
+      wasHit = true;
+      System.out.println("HIT, you get to go again!");
+    } else if (status == Location.Status.MISS) {
+      System.out.println("MISS, your turn is over...");
+    } else {
+      // error
+      System.out.println("Something went wrong!");
+      System.exit(1);
+    }
+    Pause(1);
+    System.out.println("Here's a board with your guesses again...");
+    Pause(1);
+    this.showGuesses();
 
+    return wasHit;
   }
-
-  
 }

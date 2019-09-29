@@ -46,8 +46,7 @@ public class HunterComputer extends Computer {
       nextGuess = makeNewGuess();
     }
 
-    // TODO debug
-    System.out.println("computers guess: " + nextGuess.toString());
+    System.out.println("computer's guess: " + nextGuess.toString());
 
     Location.Status result = makeGuess(nextGuess);
 
@@ -57,7 +56,7 @@ public class HunterComputer extends Computer {
       if (prevHit != null) {
         this.attackDirection = translateDirection(nextGuess.Neighbor(prevHit));
         this.trimGuesses();
-        System.out.println("attack dir: " + this.attackDirection);
+       // System.out.println("attack dir: " + this.attackDirection); TODO debug
       }
 
       // save surrounding points in order to search around that spot

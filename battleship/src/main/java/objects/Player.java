@@ -168,8 +168,6 @@ public abstract class Player implements Resettable {
   public Location.Status makeGuess(Coordinate c) throws LocationOutOfBoundsException, LocationAlreadyGuessedException {
     int id = this.opponent.GetPlayerGrid().checkLocationForShip(c);
 
-    System.out.println("id at locaiton: " + id); // TODO debug only
-
     if (id > 0) {
       this.opponent.LoseShipHealth(id);
       this.incrementHits();
@@ -206,6 +204,7 @@ public abstract class Player implements Resettable {
    * Shows the guess of the current player on the given opponent's board
    */
   public void showGuesses() {
+    System.out.println(" ===== Your Guesses =====");
     this.opponent.GetPlayerGrid().showGuesses();
   }
 

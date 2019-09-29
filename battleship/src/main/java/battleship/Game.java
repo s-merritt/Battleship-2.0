@@ -41,9 +41,10 @@ public class Game {
 
   public void ComputerPlaceShips() {
     System.out.println("Now it's the computers turn to place their ships.");
-    User.Pause(1);
+    Player.Pause(2);
     this.computer.placeShips();
     System.out.println("All done.");
+    Player.Pause(1);
 
     // TODO debug only
     this.computer.GetPlayerGrid().showShips();
@@ -57,9 +58,9 @@ public class Game {
    */
   public int CheckWin() {
     if (this.user.GetNumRemainingShips() == 0)
-      return 1;
-    else if (this.computer.GetNumRemainingShips() == 0)
       return -1;
+    else if (this.computer.GetNumRemainingShips() == 0)
+      return 1;
     else
       return 0;
   }
@@ -73,7 +74,15 @@ public class Game {
   }
 
   public void doUserTurn() {
-    this.user.GetUserGuess();
+    System.out.println("Your turn to guess!");
+    Player.Pause(1);
+    System.out.println("Here's what you've guessed so far:");
+    Player.Pause(1);
+    System.out.println("==== Your Guesses ====");
+    this.computer.GetPlayerGrid().showGuesses();
+    Player.Pause(2);
+
+    while(this.user.GetUserGuess() && CheckWin() == 0);
   }
 
   public void doComputerTurn() {
@@ -94,8 +103,16 @@ public class Game {
       } catch (Exception e) {
 
       }
+      Player.Pause(1);
+
+      System.out.println("Here's what the computer has guessed...");
+      Player.Pause(1);
+
+      System.out.println("==== Computer's Guesses ====");
+      this.user.GetPlayerGrid().showGuesses();
+
       Player.Pause(2);
-    } while (madeHit);
+    } while (madeHit && CheckWin() == 0);
   }
 
   /**
@@ -104,18 +121,37 @@ public class Game {
    * @return result code (0 is all good, not 0 means error)
    */
   public int Run() {
+    System.out.println("Welcome to Battleship!");
+    System.out.println(" ==================== ");
+    Player.Pause(2);
+
     UserPlaceShips();
     ComputerPlaceShips();
 
-    while (CheckWin() == 0) {
+    while (true) {
       // do game
       if (isUserTurn()) {
         doUserTurn();
+        if (CheckWin() == 1)
+          break;
       } else {
         doComputerTurn();
+        if (CheckWin() == -1)
+          break;
       }
       SwitchTurns();
     }
+
+    System.out.println("\n==== GAME OVER ====");
+    Player.Pause(1);
+
+    int winner = CheckWin();
+    if (winner == 1) {
+      System.out.println("\nHey you won, good job!");
+    } else if (winner == -1) {
+      System.out.println("\nAw you lost, better luck next time!");
+    }
+    System.out.println("Thanks for playing!");
 
     return 0;
   }

@@ -129,6 +129,6 @@ public class Coordinate {
 
   @Override
   public String toString() {
-    return ("coordinate[" + this.gameCol) + (this.gameRow + "]");
+    return (("" + this.gameCol) + (this.gameRow + ""));
   }
 }
