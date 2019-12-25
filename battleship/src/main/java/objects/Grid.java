@@ -27,6 +27,8 @@ public class Grid implements Resettable {
 
   /**
    * Default Constructor
+   * 
+   * TODO(merritt) make this configurable eventually?
    */
   public Grid() {
     this.grid = new Location[MAX_ROWS][MAX_COLS];
@@ -228,6 +230,10 @@ public class Grid implements Resettable {
       throw new LocationOutOfBoundsException("Coordinate out of bounds!");
     else
       return grid[c.getGridRow()][c.getGridCol()];
+  }
+
+  public Location[][] getGridData() {
+    return this.grid;
   }
 
   /**

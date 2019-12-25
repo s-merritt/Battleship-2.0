@@ -23,8 +23,13 @@ public class Coordinate {
    * 
    * @param gameCol game grid column, ex. "D"
    * @param gameRow game grid row, ex. "5"
+   * 
+   *                TODO(merritt) move character conversion to uppercase here
    */
   public Coordinate(char gameCol, int gameRow) {
+    // convert game col letter to uppercase
+    gameCol = Character.toUpperCase(gameCol);
+
     this.gameCol = gameCol;
     this.gameRow = gameRow;
     TranslateGameToGrid(gameCol, gameRow);
@@ -43,7 +48,7 @@ public class Coordinate {
     this.gridCol = gridCol;
     TranslateGridToGame(gridRow, gridCol);
   }
-  
+
   /**
    * Helper function to translate the game grid's coordinates into what those
    * coordinates would be on a 2D array
@@ -125,6 +130,21 @@ public class Coordinate {
    */
   public int getGridCol() {
     return this.gridCol;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (obj == null)
+      return false;
+
+    if (obj instanceof Coordinate) {
+      Coordinate c = (Coordinate) obj;
+      return this.gameCol == c.getGameCol() 
+          && this.gameRow == c.getGameRow() 
+          && this.gridRow == c.getGridRow()
+          && this.gridCol == c.getGridCol();
+    } else
+      return false;
   }
 
   @Override

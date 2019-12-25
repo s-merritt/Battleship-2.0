@@ -96,6 +96,7 @@ public class Location implements Resettable {
   public void Reset() {
     this.occupied = false;
     this.status = Status.UNGUESSED;
+    this.shipID = 0;
   }
 
 }
