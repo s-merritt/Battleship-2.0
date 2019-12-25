@@ -166,6 +166,13 @@ public class Ship implements Resettable {
   }
 
   /**
+   * @return Status of this ship
+   */
+  public Status getStatus() {
+    return this.status;
+  }
+
+  /**
    * Reset the Ship
    */
   @Override
