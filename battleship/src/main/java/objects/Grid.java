@@ -114,7 +114,7 @@ public class Grid implements Resettable {
     int col = c.getGridCol();
 
     if (!withinBounds(row, col)) {
-      throw new LocationOutOfBoundsException("Out Location out of bounds!");
+      throw new LocationOutOfBoundsException("Location out of bounds!");
     }
 
     // check if Location has already been guessed
@@ -193,7 +193,7 @@ public class Grid implements Resettable {
   }
 
   public void showShips() {
-    System.out.println(" ====== Your Board ====== ");
+    System.out.println(" ====== Your Board ====== "); //TODO(merritt) move this to User class
     System.out.print("   ");
     for (int i = 0; i < MAX_COLS; i++) {
       System.out.print((char) (i + 65) + " ");
@@ -232,7 +232,10 @@ public class Grid implements Resettable {
       return grid[c.getGridRow()][c.getGridCol()];
   }
 
-  public Location[][] getGridData() {
+  /**
+   * @return the underlying 2D array of Locations for this grid
+   */
+  public Location[][] data() {
     return this.grid;
   }
 

@@ -54,7 +54,7 @@ public class HunterComputer extends Computer {
       // if new hit is next to previous hit, we know the direction of the ship and can
       // narrow down our search for the next Coordinate that has a Ship
       if (prevHit != null) {
-        this.attackDirection = translateDirection(nextGuess.Neighbor(prevHit));
+        this.attackDirection = translateDirection(nextGuess.neighbors(prevHit));
         this.trimGuesses();
        // System.out.println("attack dir: " + this.attackDirection); TODO debug
       }
@@ -146,7 +146,7 @@ public class HunterComputer extends Computer {
 
     for (Coordinate c : this.nextGuesses) {
       // remove any coordinates that aren't in the attack direction
-      if (translateDirection(c.Neighbor(this.prevHit)) != this.attackDirection) {
+      if (translateDirection(c.neighbors(this.prevHit)) != this.attackDirection) {
         nextGuesses.remove(c);
       }
     }

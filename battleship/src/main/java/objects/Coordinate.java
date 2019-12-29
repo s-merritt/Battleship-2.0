@@ -24,7 +24,7 @@ public class Coordinate {
    * @param gameCol game grid column, ex. "D"
    * @param gameRow game grid row, ex. "5"
    * 
-   *                TODO(merritt) move character conversion to uppercase here
+   * TODO(merritt) move character conversion to uppercase here
    */
   public Coordinate(char gameCol, int gameRow) {
     // convert game col letter to uppercase
@@ -74,21 +74,21 @@ public class Coordinate {
   }
 
   /**
-   * Helper function to see if the given coordinate is a neighbor of this
+   * Helper function to see if the given coordinate is a neighbors of this
    * coordinate.
    * 
    * NOTE: assumes that both coordinates are valid
    * 
-   * @param c potential neighboring coordinate
+   * @param c potential neighborsing coordinate
    * @return NeighboringDirection
    */
-  public NeighboringDirection Neighbor(Coordinate c) {
+  public NeighboringDirection neighbors(Coordinate c) {
     int diffRow = this.gridRow - c.getGridRow();
     int diffCol = this.gridCol - c.getGridCol();
 
-    if (diffRow == 0) {
+    if (diffRow == 0 && Math.abs(diffCol) <= 1) {
       return NeighboringDirection.HORIZONTAL;
-    } else if (diffCol == 0) {
+    } else if (diffCol == 0 && Math.abs(diffRow) <= 1) {
       return NeighboringDirection.VERTICAL;
     }
 

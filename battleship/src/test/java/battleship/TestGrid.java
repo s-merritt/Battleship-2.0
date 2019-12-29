@@ -1,5 +1,7 @@
 package battleship;
 
+import exceptions.LocationAlreadyGuessedException;
+import exceptions.LocationOutOfBoundsException;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -32,7 +34,7 @@ public class TestGrid extends TestCase {
     public void testConstructor() {
         Grid g = new Grid();
 
-        Location[][] data = g.getGridData();
+        Location[][] data = g.data();
         for (int row = 0; row < Grid.MAX_ROWS; row++)
             for (int col = 0; col < Grid.MAX_COLS; col++)
                 assertNotNull(data[row][col]);
@@ -42,7 +44,7 @@ public class TestGrid extends TestCase {
         Grid g = new Grid();
 
         // with this definition, we expect the ship to occupy A1 and A2 on the grid
-        Ship s = new Ship(1, 2, "test_ship", Ship.Orientation.VERTICAL, new Coordinate(0, 0));        
+        Ship s = new Ship(1, 2, "test_ship", Ship.Orientation.VERTICAL, new Coordinate(0, 0));
 
         g.setShip(s);
 
@@ -61,10 +63,123 @@ public class TestGrid extends TestCase {
         assertFalse(wrong_direction.hasShip());
     }
 
-    //TODO(merritt) need to expand test cases for invalid cases
-    public void testSetShipInvalid(){
+    // TODO(merritt) need to expand test cases for invalid cases
+    public void testSetShipInvalid() {
     }
 
-    //TODO(merritt) come back to this one
+    public void testCheckLocationSuccess() throws Exception {
+        Grid g = new Grid();
+        Ship s = new Ship(1, 2, "test_ship", Ship.Orientation.VERTICAL, new Coordinate(0, 0));
 
+        g.setShip(s);
+
+        assertTrue(g.checkLocationForShip(new Coordinate('A', 1)) > 0);
+    }
+
+    public void testCheckLocationFailure() throws Exception {
+        Grid g = new Grid();
+        Ship s = new Ship(1, 2, "test_ship", Ship.Orientation.VERTICAL, new Coordinate(0, 0));
+
+        g.setShip(s);
+
+        assertTrue(g.checkLocationForShip(new Coordinate('C', 7)) == 0);
+
+        try {
+            g.checkLocationForShip(new Coordinate('P', 7));
+
+            // if we get to this point, bounds check must be invalid
+            assertTrue("Grid::checkLocationForShip does not properly check bounds", false);
+        } catch (LocationOutOfBoundsException e) {
+            assertTrue(true);
+        }
+
+        try {
+            // try to guess C7 again
+            g.checkLocationForShip(new Coordinate('C', 7));
+
+            // if we get to this point, check failed
+            assertTrue("Grid::checkLocationForShip does not check if the Location was already guessed", false);
+        } catch (LocationAlreadyGuessedException e) {
+            assertTrue(true);
+        }
+    }
+
+    public void testPeekLocationSuccess() throws Exception {
+        Grid g = new Grid();
+        Ship s = new Ship(1, 2, "test_ship", Ship.Orientation.VERTICAL, new Coordinate(0, 0));
+
+        g.setShip(s);
+
+        assertTrue(g.PeekLocation(new Coordinate('A', 1)) == 1);
+    }
+
+    public void testPeekLocationFailure() throws Exception {
+        Grid g = new Grid();
+        Ship s = new Ship(1, 2, "test_ship", Ship.Orientation.VERTICAL, new Coordinate(0, 0));
+
+        g.setShip(s);
+
+        // mark a guess at any Location
+        assertTrue(g.checkLocationForShip(new Coordinate('C', 7)) == 0);
+
+        try {
+            g.PeekLocation(new Coordinate('P', 7));
+
+            // if we get to this point, bounds check must be invalid
+            assertTrue("Grid::PeekLocation does not properly check bounds", false);
+        } catch (LocationOutOfBoundsException e) {
+            assertTrue(true);
+        }
+
+        try {
+            // try to guess C7 again
+            g.PeekLocation(new Coordinate('C', 7));
+
+            // if we get to this point, check failed
+            assertTrue("Grid::PeekLocation does not check if the Location was already guessed", false);
+        } catch (LocationAlreadyGuessedException e) {
+            assertTrue(true);
+        }
+    }
+
+    public void testAtValid() throws Exception {
+        Grid g = new Grid();
+        assertNotNull(g.at(new Coordinate('A', 4)));
+    }
+
+    public void testAtInvalid() {
+        Grid g = new Grid();
+
+        try {
+            g.at(new Coordinate('G', 127));
+
+            // if we reach this point, bound check failed
+            assertTrue("Grid::at does not check bounds properly", false);
+        } catch (LocationOutOfBoundsException e) {
+            assertTrue(true);
+        }
+    }
+
+    public void testReset() throws Exception {
+        Grid g = new Grid();
+
+        Ship s = new Ship(1, 2, "test_ship", Ship.Orientation.VERTICAL, new Coordinate(0, 0));
+        Coordinate c1 = new Coordinate('G', 7);
+        Coordinate c2 = new Coordinate('A', 1);
+
+        g.setShip(s);
+        g.checkLocationForShip(c1);
+        g.checkLocationForShip(c2);
+
+        g.Reset();
+
+        // check that Location of ship is now empty
+        assertFalse(g.at(c2).hasShip());
+
+        // check that guessed location is now unguessed
+        assertTrue(g.at(c1).getStatus() == Location.Status.UNGUESSED);
+    }
+
+    // TODO(merritt) figure out how to test print outs
+    // maybe redirect stdout and compare that way?
 }
