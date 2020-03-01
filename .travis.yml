@@ -11,5 +11,5 @@ cache:
 script:
   - cd battleship/ && mvn test -B
 
-  after_success:
+after_success:
   - bash <(curl -s https://codecov.io/bash)
