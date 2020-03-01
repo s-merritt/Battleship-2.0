@@ -1,0 +1,16 @@
+language: java
+
+cache:
+  directories:
+  - $HOME/.m2
+
+before_install:
+  - pyenv install 3.6.0
+  - pip install codecov
+  - pip install coverage
+
+script:
+  - cd battleship/ && mvn test -B
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash) -Z
