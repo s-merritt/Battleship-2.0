@@ -5,4 +5,5 @@ cache:
   - $HOME/.m2
 
 script:
+  cd battleship/
   mvn test -B
