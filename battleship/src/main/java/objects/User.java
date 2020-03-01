@@ -72,7 +72,7 @@ public class User extends Player {
       try {
         this.createAndPlaceShip(len, ship_name, orientation, head);
         i++;
-        this.GetPlayerGrid().showShips();
+        this.getPlayerGrid().showShips();
       } catch (LocationAlreadyOccupiedException e) {
         System.out.println("Overlapping ships detected! Please try again...");
       } catch (LocationOutOfBoundsException e) {

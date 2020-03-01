@@ -26,6 +26,11 @@ public class Grid implements Resettable {
   private Location[][] grid;
 
   /**
+   * The number of ships in this grid
+   */
+  private int numShips;
+
+  /**
    * Default Constructor
    * 
    * TODO(merritt) make this configurable eventually?
@@ -68,6 +73,7 @@ public class Grid implements Resettable {
       for (int i = 0; i < len; i++) {
         setShip(headRow, headCol + i, ship.getID());
       }
+      this.numShips++;
     } else { // vertical, only row number (X) changes
       // check that ship will be within bounds
       if (headRow + len > MAX_ROWS) {
@@ -84,6 +90,7 @@ public class Grid implements Resettable {
       for (int i = 0; i < len; i++) {
         setShip(headRow + i, headCol, ship.getID());
       }
+      this.numShips++;
     }
   }
 
@@ -193,7 +200,7 @@ public class Grid implements Resettable {
   }
 
   public void showShips() {
-    System.out.println(" ====== Your Board ====== "); //TODO(merritt) move this to User class
+    System.out.println(" ====== Your Board ====== "); // TODO(merritt) move this to User class
     System.out.print("   ");
     for (int i = 0; i < MAX_COLS; i++) {
       System.out.print((char) (i + 65) + " ");
@@ -237,6 +244,13 @@ public class Grid implements Resettable {
    */
   public Location[][] data() {
     return this.grid;
+  }
+
+  /**
+   * @return the numShips
+   */
+  public int getNumShips() {
+    return this.numShips;
   }
 
   /**
