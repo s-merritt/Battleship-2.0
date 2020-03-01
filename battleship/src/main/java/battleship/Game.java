@@ -47,7 +47,7 @@ public class Game {
     Player.Pause(1);
 
     // TODO debug only
-    this.computer.GetPlayerGrid().showShips();
+    this.computer.getPlayerGrid().showShips();
   }
 
   /**
@@ -57,9 +57,9 @@ public class Game {
    * @return 0 if no winner, 1 if user wins, -1 if computer wins
    */
   public int CheckWin() {
-    if (this.user.GetNumRemainingShips() == 0)
+    if (this.user.getNumRemainingShips() == 0)
       return -1;
-    else if (this.computer.GetNumRemainingShips() == 0)
+    else if (this.computer.getNumRemainingShips() == 0)
       return 1;
     else
       return 0;
@@ -79,7 +79,7 @@ public class Game {
     System.out.println("Here's what you've guessed so far:");
     Player.Pause(1);
     System.out.println("==== Your Guesses ====");
-    this.computer.GetPlayerGrid().showGuesses();
+    this.computer.getPlayerGrid().showGuesses();
     Player.Pause(2);
 
     while(this.user.GetUserGuess() && CheckWin() == 0);
@@ -109,7 +109,7 @@ public class Game {
       Player.Pause(1);
 
       System.out.println("==== Computer's Guesses ====");
-      this.user.GetPlayerGrid().showGuesses();
+      this.user.getPlayerGrid().showGuesses();
 
       Player.Pause(2);
     } while (madeHit && CheckWin() == 0);

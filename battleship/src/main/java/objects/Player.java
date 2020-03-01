@@ -86,7 +86,7 @@ public abstract class Player implements Resettable {
   /**
    * Player's Grid getter
    */
-  public Grid GetPlayerGrid() {
+  public Grid getPlayerGrid() {
     return this.playerGrid;
   }
 
@@ -95,7 +95,7 @@ public abstract class Player implements Resettable {
    * 
    * @return numShips
    */
-  public int GetNumRemainingShips() {
+  public int getNumRemainingShips() {
     return this.numRemainingShips;
   }
 
@@ -104,7 +104,7 @@ public abstract class Player implements Resettable {
    * 
    * @return numHits
    */
-  public int GetNumHits() {
+  public int getNumHits() {
     return this.numHits;
   }
 
@@ -166,7 +166,7 @@ public abstract class Player implements Resettable {
    * @throws LocationAlreadyGuessedException
    */
   public Location.Status makeGuess(Coordinate c) throws LocationOutOfBoundsException, LocationAlreadyGuessedException {
-    int id = this.opponent.GetPlayerGrid().checkLocationForShip(c);
+    int id = this.opponent.getPlayerGrid().checkLocationForShip(c);
 
     if (id > 0) {
       this.opponent.LoseShipHealth(id);
@@ -205,7 +205,7 @@ public abstract class Player implements Resettable {
    */
   public void showGuesses() {
     System.out.println(" ===== Your Guesses =====");
-    this.opponent.GetPlayerGrid().showGuesses();
+    this.opponent.getPlayerGrid().showGuesses();
   }
 
   /**

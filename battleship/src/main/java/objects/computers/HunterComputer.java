@@ -119,7 +119,7 @@ public class HunterComputer extends Computer {
     for (Coordinate coord : temp) {
       // check if the Coordinate will be a valid guess, remove it if it is not
       try {
-        this.opponent.GetPlayerGrid().PeekLocation(coord);
+        this.opponent.getPlayerGrid().PeekLocation(coord);
 
         // if passed through try-catch, must be valid coordiante
         this.nextGuesses.push(coord);
@@ -130,7 +130,7 @@ public class HunterComputer extends Computer {
         // made against a different ship! We'll wan't to look around that hit too to
         // make sure
         try {
-          if (this.opponent.GetPlayerGrid().at(coord).getStatus() == Location.Status.HIT && !coord.equals(this.prevHit))
+          if (this.opponent.getPlayerGrid().at(coord).getStatus() == Location.Status.HIT && !coord.equals(this.prevHit))
             LookAround(coord);
         } catch (LocationOutOfBoundsException e2) {
         }
