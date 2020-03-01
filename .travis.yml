@@ -6,10 +6,10 @@ cache:
 
   before_install:
   - pyenv install 3.6.0
-  - pip install requests
+  - pip install codecov
 
 script:
   - cd battleship/ && mvn test -B
 
 after_success:
-  - bash <(curl -s https://codecov.io/bash) -Z -v
+  - codecov
