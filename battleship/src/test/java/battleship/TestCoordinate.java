@@ -108,5 +108,4 @@ public class TestCoordinate extends TestCase {
 
         assertEquals(Coordinate.NeighboringDirection.NONE, c1.neighbors(c2));
     }
-
 }

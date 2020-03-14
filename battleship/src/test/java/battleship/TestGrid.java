@@ -1,6 +1,7 @@
 package battleship;
 
 import exceptions.LocationAlreadyGuessedException;
+import exceptions.LocationAlreadyOccupiedException;
 import exceptions.LocationOutOfBoundsException;
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -40,6 +41,21 @@ public class TestGrid extends TestCase {
                 assertNotNull(data[row][col]);
     }
 
+    public void testNumShips() throws LocationOutOfBoundsException, LocationAlreadyOccupiedException {
+        Grid g = new Grid();
+        assertEquals(0, g.getNumShips());
+
+        Ship s = new Ship(1, 2, "test_ship", Ship.Orientation.VERTICAL, new Coordinate(0, 0));
+        g.setShip(s);
+
+        assertEquals(1, g.getNumShips());
+    }
+
+    public void testWithinBounds() {
+        assertTrue(Grid.withinBounds(3, 3));
+        assertFalse(Grid.withinBounds(11, 11));
+    }
+
     public void testSetShipValid() throws Exception {
         Grid g = new Grid();
 
@@ -64,7 +80,72 @@ public class TestGrid extends TestCase {
     }
 
     // TODO(merritt) need to expand test cases for invalid cases
-    public void testSetShipInvalid() {
+    public void testSetShipInvalid() throws LocationOutOfBoundsException, LocationAlreadyOccupiedException {
+        Grid g = new Grid();
+        // test horizontal ship first
+        // out of bounds
+        Ship s = new Ship(1, 5, "OoB_ship", Ship.Orientation.HORIZONTAL, new Coordinate('J', 1));
+        try {
+            g.setShip(s);
+
+            // if we reach this point, test fails
+            assertTrue("Grid.setShip should not be able to place a ship out of bounds", false);
+        } catch (LocationOutOfBoundsException e) {
+            assertTrue(true);
+        } catch (Exception e) { // any other exception is failure
+            assertTrue(false);
+        }
+        g.Reset();
+
+        // location already occupied
+        Ship s1 = new Ship(1, 5, "valid_ship", Ship.Orientation.HORIZONTAL, new Coordinate('C', 4));
+        Ship s2 = new Ship(2, 3, "overlap_ship", Ship.Orientation.HORIZONTAL, new Coordinate('B', 4));
+
+        g.setShip(s1);
+
+        try {
+            g.setShip(s2);
+
+            // if we get to this point, test fails
+            assertTrue("Grid.setShip should not be able to overlap ships.", false);
+        } catch(LocationAlreadyOccupiedException e){
+            assertTrue(true);
+        } catch (Exception e){
+            assertTrue(false);
+        }
+        g.Reset();
+
+        // test with vertical ships
+        // out of bounds
+        s = new Ship(1, 5, "OoB_ship", Ship.Orientation.VERTICAL, new Coordinate('B', 10));
+        try {
+            g.setShip(s);
+
+            // if we reach this point, test fails
+            assertTrue("Grid.setShip should not be able to place a ship out of bounds", false);
+        } catch (LocationOutOfBoundsException e) {
+            assertTrue(true);
+        } catch (Exception e) { // any other exception is failure
+            assertTrue(false);
+        }
+        g.Reset();
+
+        // location already occupied
+        s1 = new Ship(1, 5, "valid_ship", Ship.Orientation.VERTICAL, new Coordinate('C', 4));
+        s2 = new Ship(2, 3, "overlap_ship", Ship.Orientation.VERTICAL, new Coordinate('C', 2));
+
+        g.setShip(s1);
+
+        try {
+            g.setShip(s2);
+
+            // if we get to this point, test fails
+            assertTrue("Grid.setShip should not be able to overlap ships.", false);
+        } catch(LocationAlreadyOccupiedException e){
+            assertTrue(true);
+        } catch (Exception e){
+            assertTrue(false);
+        }
     }
 
     public void testCheckLocationSuccess() throws Exception {
@@ -88,7 +169,7 @@ public class TestGrid extends TestCase {
             g.checkLocationForShip(new Coordinate('P', 7));
 
             // if we get to this point, bounds check must be invalid
-            assertTrue("Grid::checkLocationForShip does not properly check bounds", false);
+            assertTrue("Grid.checkLocationForShip does not properly check bounds", false);
         } catch (LocationOutOfBoundsException e) {
             assertTrue(true);
         }
@@ -98,7 +179,7 @@ public class TestGrid extends TestCase {
             g.checkLocationForShip(new Coordinate('C', 7));
 
             // if we get to this point, check failed
-            assertTrue("Grid::checkLocationForShip does not check if the Location was already guessed", false);
+            assertTrue("Grid.checkLocationForShip does not check if the Location was already guessed", false);
         } catch (LocationAlreadyGuessedException e) {
             assertTrue(true);
         }
@@ -136,7 +217,7 @@ public class TestGrid extends TestCase {
             g.PeekLocation(new Coordinate('C', 7));
 
             // if we get to this point, check failed
-            assertTrue("Grid::PeekLocation does not check if the Location was already guessed", false);
+            assertTrue("Grid.PeekLocation does not check if the Location was already guessed", false);
         } catch (LocationAlreadyGuessedException e) {
             assertTrue(true);
         }
@@ -154,7 +235,7 @@ public class TestGrid extends TestCase {
             g.at(new Coordinate('G', 127));
 
             // if we reach this point, bound check failed
-            assertTrue("Grid::at does not check bounds properly", false);
+            assertTrue("Grid.at does not check bounds properly", false);
         } catch (LocationOutOfBoundsException e) {
             assertTrue(true);
         }
@@ -181,5 +262,6 @@ public class TestGrid extends TestCase {
     }
 
     // TODO(merritt) figure out how to test print outs
-    // maybe redirect stdout and compare that way?
+    // same issue with other print out tests: succeeds
+    // on linux but fails in Windows
 }
