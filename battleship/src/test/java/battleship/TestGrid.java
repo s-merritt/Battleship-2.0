@@ -333,7 +333,6 @@ public class TestGrid extends TestCase {
             case MAC:
             case LINUX:
                 String expectedOut = 
-                    " ====== Your Board ====== \n" +
                     "   A B C D E F G H I J \n" +
                     "1  X - - - - - - - - - \n" +
                     "2  X - - - - - - - - - \n" +

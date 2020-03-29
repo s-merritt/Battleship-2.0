@@ -6,6 +6,7 @@ import exceptions.LocationAlreadyGuessedException;
 import exceptions.LocationAlreadyOccupiedException;
 import exceptions.LocationOutOfBoundsException;
 import objects.Ship.Orientation;
+import util.Timing;
 
 public class User extends Player {
   public static final Scanner IN = new Scanner(System.in);
@@ -17,21 +18,21 @@ public class User extends Player {
   @Override
   public void placeShips() {
     System.out.println("It's time for you to place your ships.");
-    Pause(1);
+    Timing.pause(1);
     System.out.println("We'll start with the largest one and work our way down.");
-    Pause(1);
+    Timing.pause(1);
     System.out.println(
         "You will provide a coordinate and orientation for the ship. The ship will placed starting at that coordinate, and place it in the direction that you specified (top-down for vertical ships, left-right for horizontal ships).");
-    Pause(2);
+    Timing.pause(2);
     System.out.println(
         "We'll check to make sure that the ship can be placed there first; if the spot you chose was invalid, you can try again");
-    Pause(1);
+    Timing.pause(1);
 
     for (int i = 0; i < Player.NUM_STARTING_SHIPS;) { // only increment i if we placed a ship
       int len = Player.SHIP_LENGTHS[i];
       String ship_name = Player.SHIP_NAMES[i];
       System.out.println("Placing ship of length " + len + ", " + ship_name);
-      Pause(1);
+      Timing.pause(1);
 
       boolean valid = false;
       Coordinate head = new Coordinate(-1, -1);
@@ -125,7 +126,7 @@ public class User extends Player {
 
       if (coord == null) {
         System.out.println("Please try again");
-        Pause(1);
+        Timing.pause(1);
         continue;
       }
 
@@ -134,11 +135,11 @@ public class User extends Player {
         break;
       } catch (LocationOutOfBoundsException e) {
         System.out.println("That coordinate is out of bounds! Try again...");
-        Pause(1);
+        Timing.pause(1);
         continue;
       } catch (LocationAlreadyGuessedException e) {
         System.out.println("You already guessed that coordiante! Try again...");
-        Pause(1);
+        Timing.pause(1);
         continue;
       }
     }
@@ -153,9 +154,9 @@ public class User extends Player {
       System.out.println("Something went wrong!");
       System.exit(1);
     }
-    Pause(1);
+    Timing.pause(1);
     System.out.println("Here's a board with your guesses again...");
-    Pause(1);
+    Timing.pause(1);
     this.showGuesses();
 
     return wasHit;

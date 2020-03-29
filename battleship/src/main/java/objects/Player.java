@@ -212,18 +212,11 @@ public abstract class Player implements Resettable {
    * Shows the ships of the player on their on grid
    */
   public void showShips() {
+    System.out.println(" ====== Your Board ====== ");
     this.playerGrid.showShips();
   }
 
   public abstract void placeShips();
-
-  public static void Pause(int seconds) {
-    try {
-      Thread.sleep(seconds * 1000);
-    } catch (InterruptedException e) {
-      System.exit(1);
-    }
-  }
 
   /**
    * Resets the Player's data to what it would be at the start of the game
@@ -233,9 +226,9 @@ public abstract class Player implements Resettable {
     this.numHits = 0;
     this.numMisses = 0;
     this.numRemainingShips = NUM_STARTING_SHIPS;
-
     this.playerGrid = new Grid();
     this.ships = new HashMap<Integer, Ship>(NUM_STARTING_SHIPS);
+    this.opponent = null;
   }
 
 }

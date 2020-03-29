@@ -200,7 +200,6 @@ public class Grid implements Resettable {
   }
 
   public void showShips() {
-    System.out.println(" ====== Your Board ====== "); // TODO(merritt) move this to User class
     System.out.print("   ");
     for (int i = 0; i < MAX_COLS; i++) {
       System.out.print((char) (i + 65) + " ");

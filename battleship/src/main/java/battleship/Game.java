@@ -1,5 +1,7 @@
 package battleship;
 
+import util.Timing;
+
 import objects.computers.*;
 import objects.*;
 
@@ -41,10 +43,10 @@ public class Game {
 
   public void ComputerPlaceShips() {
     System.out.println("Now it's the computers turn to place their ships.");
-    Player.Pause(2);
+    Timing.pause(2);
     this.computer.placeShips();
     System.out.println("All done.");
-    Player.Pause(1);
+    Timing.pause(1);
 
     // TODO debug only
     this.computer.getPlayerGrid().showShips();
@@ -75,12 +77,12 @@ public class Game {
 
   public void doUserTurn() {
     System.out.println("Your turn to guess!");
-    Player.Pause(1);
+    Timing.pause(1);
     System.out.println("Here's what you've guessed so far:");
-    Player.Pause(1);
+    Timing.pause(1);
     System.out.println("==== Your Guesses ====");
     this.computer.getPlayerGrid().showGuesses();
-    Player.Pause(2);
+    Timing.pause(2);
 
     while(this.user.GetUserGuess() && CheckWin() == 0);
   }
@@ -89,10 +91,10 @@ public class Game {
     System.out.println("Now it's the computer's turn.");
     boolean madeHit = false;
     do {
-      Player.Pause(1);
+      Timing.pause(1);
       try {
         Location.Status status = this.computer.makeGuess();
-        Player.Pause(1);
+        Timing.pause(1);
         if (status == Location.Status.HIT) {
           System.out.println("HIT! They get to go again.");
           madeHit = true;
@@ -103,15 +105,15 @@ public class Game {
       } catch (Exception e) {
 
       }
-      Player.Pause(1);
+      Timing.pause(1);
 
       System.out.println("Here's what the computer has guessed...");
-      Player.Pause(1);
+      Timing.pause(1);
 
       System.out.println("==== Computer's Guesses ====");
       this.user.getPlayerGrid().showGuesses();
 
-      Player.Pause(2);
+      Timing.pause(2);
     } while (madeHit && CheckWin() == 0);
   }
 
@@ -123,7 +125,7 @@ public class Game {
   public int Run() {
     System.out.println("Welcome to Battleship!");
     System.out.println(" ==================== ");
-    Player.Pause(2);
+    Timing.pause(2);
 
     UserPlaceShips();
     ComputerPlaceShips();
@@ -143,7 +145,7 @@ public class Game {
     }
 
     System.out.println("\n==== GAME OVER ====");
-    Player.Pause(1);
+    Timing.pause(1);
 
     int winner = CheckWin();
     if (winner == 1) {
