@@ -23,26 +23,26 @@ public class TestLocationAlreadyGuessedException extends TestCase {
   /**
    * @return the suite of tests being tested
    */
-  public static Test suite(){
+  public static Test suite() {
     return new TestSuite(TestLocationAlreadyGuessedException.class);
   }
 
-  public void testConstructor(){
+  public void testConstructor() {
     LocationAlreadyGuessedException e = new LocationAlreadyGuessedException();
     assertNotNull(e);
   }
 
-  public void testMessage(){
+  public void testMessage() {
     LocationAlreadyGuessedException e = new LocationAlreadyGuessedException("this is a test message");
     assertEquals("this is a test message", e.getLocalizedMessage());
   }
 
-  public void testCause(){
+  public void testCause() {
     LocationAlreadyGuessedException e = new LocationAlreadyGuessedException(new Throwable());
     assertNotNull(e.getCause());
   }
 
-  public void testCauseAndMessage(){
+  public void testCauseAndMessage() {
     LocationAlreadyGuessedException e = new LocationAlreadyGuessedException("test message", new Throwable());
     assertEquals("test message", e.getLocalizedMessage());
     assertNotNull(e.getCause());
