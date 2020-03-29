@@ -1,21 +1,31 @@
 package battleship;
 
-import exceptions.LocationAlreadyGuessedException;
-import exceptions.LocationAlreadyOccupiedException;
-import exceptions.LocationOutOfBoundsException;
+import java.io.ByteArrayOutputStream;
+import java.io.FileDescriptor;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
+
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+
+import utils.TestUtil;
 
 import objects.Coordinate;
 import objects.Grid;
 import objects.Location;
 import objects.Ship;
+import exceptions.LocationAlreadyGuessedException;
+import exceptions.LocationAlreadyOccupiedException;
+import exceptions.LocationOutOfBoundsException;
+
 
 /**
  * Unit tests for objects.Grid
  */
 public class TestGrid extends TestCase {
+
+
     /**
      * Create the test case
      * 
@@ -52,8 +62,15 @@ public class TestGrid extends TestCase {
     }
 
     public void testWithinBounds() {
+        // valid
         assertTrue(Grid.withinBounds(3, 3));
+
+        // invalid
+        assertFalse(Grid.withinBounds(-1, 3));
+        assertFalse(Grid.withinBounds(1, -3));
         assertFalse(Grid.withinBounds(11, 11));
+        assertFalse(Grid.withinBounds(3, 11));
+        assertFalse(Grid.withinBounds(11, 3));
     }
 
     public void testSetShipValid() throws Exception {
@@ -108,9 +125,9 @@ public class TestGrid extends TestCase {
 
             // if we get to this point, test fails
             assertTrue("Grid.setShip should not be able to overlap ships.", false);
-        } catch(LocationAlreadyOccupiedException e){
+        } catch (LocationAlreadyOccupiedException e) {
             assertTrue(true);
-        } catch (Exception e){
+        } catch (Exception e) {
             assertTrue(false);
         }
         g.Reset();
@@ -141,9 +158,9 @@ public class TestGrid extends TestCase {
 
             // if we get to this point, test fails
             assertTrue("Grid.setShip should not be able to overlap ships.", false);
-        } catch(LocationAlreadyOccupiedException e){
+        } catch (LocationAlreadyOccupiedException e) {
             assertTrue(true);
-        } catch (Exception e){
+        } catch (Exception e) {
             assertTrue(false);
         }
     }
@@ -264,4 +281,79 @@ public class TestGrid extends TestCase {
     // TODO(merritt) figure out how to test print outs
     // same issue with other print out tests: succeeds
     // on linux but fails in Windows
+    public void testGuessesDisplay() 
+            throws LocationAlreadyOccupiedException, LocationOutOfBoundsException, LocationAlreadyGuessedException {
+        Grid g = new Grid();
+        Ship s = new Ship(1, 2, "test_ship", Ship.Orientation.VERTICAL, new Coordinate(0, 0));
+        g.setShip(s);
+
+        g.checkLocationForShip(new Coordinate('A', 4)); // MISS
+        g.checkLocationForShip(new Coordinate('A', 1)); // HIT
+
+        // change stdout so we can compare strings
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(out));
+        g.showGuesses();
+        switch (TestUtil.fetchOS()){
+            case MAC:
+            case LINUX:
+                String expectedOut = 
+                    "   A B C D E F G H I J \n" +
+                    "1  X - - - - - - - - - \n" +
+                    "2  - - - - - - - - - - \n" +
+                    "3  - - - - - - - - - - \n" +
+                    "4  O - - - - - - - - - \n" +
+                    "5  - - - - - - - - - - \n" +
+                    "6  - - - - - - - - - - \n" +
+                    "7  - - - - - - - - - - \n" +
+                    "8  - - - - - - - - - - \n" +
+                    "9  - - - - - - - - - - \n" +
+                    "10 - - - - - - - - - - \n";            
+                assertEquals(expectedOut, out.toString());
+                break;
+            case WINDOWS:
+                // TODO need to figure out how Windows prints this, assert true for now
+                assertTrue(true);
+                break;
+        }
+        // must reset stdout
+        System.setOut(new PrintStream(new FileOutputStream(FileDescriptor.out)));
+    }
+
+    public void testShipsDisplay() throws LocationAlreadyGuessedException, LocationAlreadyOccupiedException, LocationOutOfBoundsException {
+        Grid g = new Grid();
+        Ship s = new Ship(1, 2, "test_ship", Ship.Orientation.VERTICAL, new Coordinate(0, 0));
+        g.setShip(s);
+
+        // redirect stdout to be able to compare output string
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(out));
+        g.showShips();
+        switch (TestUtil.fetchOS()){
+            case MAC:
+            case LINUX:
+                String expectedOut = 
+                    " ====== Your Board ====== \n" +
+                    "   A B C D E F G H I J \n" +
+                    "1  X - - - - - - - - - \n" +
+                    "2  X - - - - - - - - - \n" +
+                    "3  - - - - - - - - - - \n" +
+                    "4  - - - - - - - - - - \n" +
+                    "5  - - - - - - - - - - \n" +
+                    "6  - - - - - - - - - - \n" +
+                    "7  - - - - - - - - - - \n" +
+                    "8  - - - - - - - - - - \n" +
+                    "9  - - - - - - - - - - \n" +
+                    "10 - - - - - - - - - - \n";            
+                assertEquals(expectedOut, out.toString());
+                break;
+            case WINDOWS:
+                // TODO need to figure out how Windows prints this, assert true for now
+                assertTrue(true);
+                break;
+        }
+        // must reset stdout
+        System.setOut(new PrintStream(new FileOutputStream(FileDescriptor.out)));  
+    }
+
 }

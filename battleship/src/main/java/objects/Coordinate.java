@@ -24,7 +24,7 @@ public class Coordinate {
    * @param gameCol game grid column, ex. "D"
    * @param gameRow game grid row, ex. "5"
    * 
-   * TODO(merritt) move character conversion to uppercase here
+   *                TODO(merritt) move character conversion to uppercase here
    */
   public Coordinate(char gameCol, int gameRow) {
     // convert game col letter to uppercase
@@ -139,10 +139,9 @@ public class Coordinate {
 
     if (obj instanceof Coordinate) {
       Coordinate c = (Coordinate) obj;
-      return this.gameCol == c.getGameCol() 
-          && this.gameRow == c.getGameRow() 
-          && this.gridRow == c.getGridRow()
-          && this.gridCol == c.getGridCol();
+      // link between grid/game indices guarentees that if one matches, the other pair
+      // will match, so we can only check the grid indices.
+      return this.gridRow == c.getGridRow() && this.gridCol == c.getGridCol();
     } else
       return false;
   }

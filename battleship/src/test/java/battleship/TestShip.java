@@ -37,19 +37,28 @@ public class TestShip extends TestCase {
         assertEquals(new Coordinate('B', 4), s.getHead());
     }
 
+    public void testSetHead(){
+        Ship s = new Ship(1, 3, "test_ship", Ship.Orientation.HORIZONTAL, new Coordinate('B', 4));
+        s.setHead(new Coordinate('A', 1));
+        assertEquals(new Coordinate('A', 1), s.getHead());
+    }
+
     public void testHealth() {
         Ship s = new Ship(1, 3, "test_ship", Ship.Orientation.HORIZONTAL, new Coordinate('B', 4));
+
+        // check that ship is NOT sunk yet...
+        assertFalse(s.isSunk());
 
         for (int expected = s.getHealth(); expected > 0; expected--) {
             assertEquals(expected, s.getHealth());
             s.decrementHealth();
         }
 
-        // ship should be 'sunk' at this point
+        // ship should be sunk at this point
         assertTrue(s.isSunk());
     }
 
-    public void testReset(){
+    public void testReset() {
         Ship s = new Ship(1, 3, "test_ship", Ship.Orientation.HORIZONTAL, new Coordinate('B', 4));
 
         s.shipPlaced();

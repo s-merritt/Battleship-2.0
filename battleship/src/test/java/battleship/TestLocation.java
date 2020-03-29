@@ -45,6 +45,14 @@ public class TestLocation extends TestCase {
         assertTrue(l.hasShip());
     }
 
+    public void testSetShipID() {
+        Location l = new Location();
+
+        l.setShipID(3);
+
+        assertEquals(3, l.getShipID());
+    }
+
     public void testMarkMiss() {
         Location l = new Location();
 

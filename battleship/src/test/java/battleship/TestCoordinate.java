@@ -58,6 +58,13 @@ public class TestCoordinate extends TestCase {
     }
 
     public void testNotEquals() {
+        // compare with null object
+        Coordinate c = new Coordinate('A', 1);
+        assertFalse(c.equals(null));
+
+        // compare with non Coordinate-type Object
+        assertFalse(c.equals(new Object()));
+
         // same row, different columns
         Coordinate c1 = new Coordinate('B', 7);
         Coordinate c2 = new Coordinate('C', 7);
