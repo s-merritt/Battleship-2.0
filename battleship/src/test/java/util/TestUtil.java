@@ -1,4 +1,4 @@
-package utils;
+package util;
 
 /**
  * Simple utility class to contain some helpful static functions for use in unit

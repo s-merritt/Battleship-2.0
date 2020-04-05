@@ -9,7 +9,7 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-import utils.TestUtil;
+import util.TestUtil;
 
 import objects.Coordinate;
 import objects.Grid;

@@ -5,7 +5,7 @@ import java.io.FileDescriptor;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
 
-import utils.TestUtil;
+import util.TestUtil;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
