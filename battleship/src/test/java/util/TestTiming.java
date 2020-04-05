@@ -6,7 +6,6 @@ import junit.framework.TestSuite;
 
 import util.Timing;
 
-
 /**
  * Unit tests objects.Coordinate
  */
@@ -40,6 +39,6 @@ public class TestTiming extends TestCase {
 
     // time won't be exactly 1 second due to function calls,
     // but will be within a close threshold
-    assertTrue(dur > 1000 && dur < 1010);
+    assertTrue(dur >= 1000 && dur < 1100);
   }
 }
