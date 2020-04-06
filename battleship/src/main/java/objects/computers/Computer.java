@@ -58,7 +58,7 @@ public abstract class Computer extends Player {
       Orientation orientation = Orientation.HORIZONTAL;
 
       // try to place the ship, only increment the counter if we succeed, else the
-      // user will have to try again
+      // computer will have to try again
       try {
         this.createAndPlaceShip(len, ship_name, orientation, head);
         i++;
