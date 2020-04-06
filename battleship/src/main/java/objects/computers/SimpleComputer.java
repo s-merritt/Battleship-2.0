@@ -4,7 +4,6 @@ import exceptions.LocationAlreadyGuessedException;
 import exceptions.LocationOutOfBoundsException;
 import objects.Coordinate;
 import objects.Location;
-import objects.Player;
 
 /**
  * Simple Computer class. It will only make random guesses against the player
@@ -28,13 +27,9 @@ public class SimpleComputer extends Computer {
    */
   @Override
   public Location.Status makeGuess() throws LocationOutOfBoundsException, LocationAlreadyGuessedException {
-    Coordinate nextGuess;
-    if (hasGuesses()) { // get a guess if it already has one
-      nextGuess = getNextGuess();
-    } else { // make a new guess (random)
-      nextGuess = makeNewGuess();
-    }
-
+    // computer will only make a random guess
+    Coordinate nextGuess = makeNewGuess();
+    
     // TODO debug
     System.out.println("computers guess: " + nextGuess.toString());
 
