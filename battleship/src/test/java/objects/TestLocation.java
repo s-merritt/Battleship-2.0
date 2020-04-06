@@ -1,4 +1,4 @@
-package battleship;
+package objects;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

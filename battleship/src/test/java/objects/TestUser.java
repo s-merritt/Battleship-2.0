@@ -1,17 +1,8 @@
-package battleship;
-
-import java.io.ByteArrayOutputStream;
-import java.io.FileDescriptor;
-import java.io.FileOutputStream;
-import java.io.PrintStream;
-
-import util.TestUtil;
+package objects;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-import objects.*;
-import objects.computers.*;
 
 /**
  * Unit tests for objects.Player
@@ -36,5 +27,11 @@ public class TestUser extends TestCase {
   public void testConstructor() {
     User u = new User();
     assertNotNull(u);
+  }
+
+  public void testPlaceShips() {
+    // TODO need to devise a way to test with fake user input
+    // this may require breaking up the placeShips function into
+    // smaller pieces
   }
 }

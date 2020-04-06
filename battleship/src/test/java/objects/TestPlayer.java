@@ -1,4 +1,4 @@
-package battleship;
+package objects;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileDescriptor;
@@ -10,7 +10,6 @@ import util.TestUtil;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-import objects.*;
 import objects.computers.*;
 
 /**
@@ -36,9 +35,9 @@ public class TestPlayer extends TestCase {
     public void testConstructor(){
         Player p = new User();
 
-        assertTrue(p.getNumHits() == 0);
-        assertTrue(p.getNumMisses() == 0);
-        assertTrue(p.getNumRemainingShips() == 5);
+        assertEquals(0, p.getNumHits());
+        assertEquals(0, p.getNumMisses());
+        assertEquals(5, p.getNumRemainingShips());
         assertNotNull(p.getPlayerGrid());
         assertNull(p.getOpponentPlayer());
     }

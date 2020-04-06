@@ -1,4 +1,4 @@
-package battleship;
+package objects;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileDescriptor;

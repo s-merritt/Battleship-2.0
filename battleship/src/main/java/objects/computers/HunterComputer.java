@@ -8,7 +8,7 @@ import objects.Coordinate;
 import objects.Location;
 
 public class HunterComputer extends Computer {
-  private enum AttackDirection {
+  public enum AttackDirection {
     VERTICAL, HORIZONTAL, UNSET
   }
 
@@ -150,6 +150,14 @@ public class HunterComputer extends Computer {
         nextGuesses.remove(c);
       }
     }
+  }
+
+  public AttackDirection getAttackDirection(){
+    return this.attackDirection;
+  }
+
+  public Coordinate getPreviousHit(){
+    return this.prevHit;
   }
 
   public AttackDirection translateDirection(Coordinate.NeighboringDirection dir) {
